@@ -15,9 +15,9 @@ public class User {
     private String phoneNumber;
     private String mobileNumber;
     private String name;
+    private String surname;
     private String password;
     private String street;
-    private String surname;
     private String userType;
 
     public User() {

@@ -92,7 +92,7 @@ public class VoteAppApplication {
         vote.setVoteTitle(name);
         vote.setAnonymousVote(true);
         vote.setMandatory(false);
-        vote.setStartDate((java.sql.Date) Utils.getCurrentDate());
+        //vote.setStartDate((java.sql.Date) Utils.getCurrentDate());
         vote.setAuthor_id(authorId);
         voteRepository.save(vote);
         return vote;

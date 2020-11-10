@@ -22,6 +22,9 @@ public class Vote {
     private Boolean isMandatory;
     private String votePassword;
 
+    public Vote() {
+    }
+
     public Long getId() {
         return id;
     }

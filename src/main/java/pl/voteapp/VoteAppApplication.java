@@ -78,13 +78,13 @@ public class VoteAppApplication {
 
 
         //create questions
-        Question question1 = createQuestion("How often do you brush your teeth?");
-        Question question2 = createQuestion("Do you like animals?");
-        Question question3 = createQuestion("Have you ever been in Germany?");
-        Question question4 = createQuestion("How many ECTS did you get?");
-        Question question5 = createQuestion("Do you play soccer?");
-        Question question6 = createQuestion("Resolve equation 2+2*2");
-        Question question7 = createQuestion("What is your favourite movie?");
+        Question question1 = createQuestion("How often do you brush your teeth?", vote1.getId());
+        Question question2 = createQuestion("Do you like animals?", vote1.getId());
+        Question question3 = createQuestion("Have you ever been in Germany?", vote1.getId());
+        Question question4 = createQuestion("How many ECTS did you get?", vote2.getId());
+        Question question5 = createQuestion("Do you play soccer?", vote2.getId());
+        Question question6 = createQuestion("Resolve equation 2+2*2", vote2.getId());
+        Question question7 = createQuestion("What is your favourite movie?", vote2.getId());
 
         //create assigments
         createUserQuestion(vote1.getId(), question1.getId());
@@ -143,8 +143,9 @@ public class VoteAppApplication {
         return user;
     }
 
-    private Question createQuestion(String questionContent){
+    private Question createQuestion(String questionContent, Long questionId){
         Question question = new Question();
+        question.setVote_id(questionId);
         question.setMandatoryQuestion(true);
         question.setMaximumCapacityOfAnswer(50);
         question.setMultipleChoice(false);

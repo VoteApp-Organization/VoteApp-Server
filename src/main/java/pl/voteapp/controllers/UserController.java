@@ -29,9 +29,6 @@ public class UserController {
     @GetMapping(path = {"userView/{id}"}, produces = "application/json")
     public User getUser(@PathVariable("id") Optional<Long> id) {
         return userRepository.findById(id.get()).get() ;
-        //TODO
-        //Implement finding user by the phone number as a key
-        //return userRepository.findByPhoneNumber(phoneNumber) ;
     }
 
     @RequestMapping(value = "getUserGroups/{id}", method = RequestMethod.GET)

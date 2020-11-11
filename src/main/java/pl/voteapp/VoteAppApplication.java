@@ -55,10 +55,10 @@ public class VoteAppApplication {
         Vote vote2 = createVote("Vote for good people!", user1.getId());
 
         //create groups
-        Group group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1.getId());
-        Group group2 = createGroup("College", "Best group ever", false, user1.getId());
-        Group group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1.getId());
-        Group group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2.getId());
+        Group__c group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1.getId());
+        Group__c group2 = createGroup("College", "Best group ever", false, user1.getId());
+        Group__c group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1.getId());
+        Group__c group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2.getId());
 
         //create assigments groups
         createGroupAssigment(group1.getId(), user1.getId(), null);
@@ -168,8 +168,8 @@ public class VoteAppApplication {
         answerRepository.save(answer);
     }
 
-    private Group createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
-        Group group = new Group();
+    private Group__c createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
+        Group__c group = new Group__c();
         group.setName(groupName);
         group.setDescription(groupDescription);
         group.setActive(true);

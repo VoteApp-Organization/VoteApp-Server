@@ -59,7 +59,6 @@ public class UserQuestion {
 
     @Override
     public String toString() {
-        return "QuestionId " + question_id + " given: " + answerHasBeenGiven + " in: "
-                + voteDate != null ? voteDate.toString() : "-";
+        return "QuestionId " + question_id + " given: " + answerHasBeenGiven;
     }
 }

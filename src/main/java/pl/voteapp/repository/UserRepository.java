@@ -9,4 +9,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(nativeQuery = true, value = "select * from User where phoneNumber = :phoneNumber LIMIT 1")
     public User findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
+    @Query(nativeQuery = true, value = "select * from User where email = :email LIMIT 1")
+    public User findByPhoneEmail(@Param("email") String email);
 }

@@ -26,6 +26,12 @@ public class VoteAppApplication {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private GroupAssigmentRepository groupAssigmentRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(VoteAppApplication.class, args);
     }
@@ -39,11 +45,37 @@ public class VoteAppApplication {
 
     //Create example data for tests
     public void createExampleData() {
+        //create users
         User user1 = createUser("Marcin", "Marchewka","781098342", "Administrator");
         User user2 = createUser("Tomasz", "Gońcher","72412342", "Client");
         User user3 = createUser("Andrzej", "Szyszka","453098342", "Priest");
+
+        //create votes
         Vote vote1 = createVote("Voting for the new President of United Spring Technologies!", user1.getId());
         Vote vote2 = createVote("Vote for good people!", user1.getId());
+
+        //create groups
+        Group group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1.getId());
+        Group group2 = createGroup("College", "Best group ever", false, user1.getId());
+        Group group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1.getId());
+        Group group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2.getId());
+
+        //create assigments groups
+        createGroupAssigment(group1.getId(), user1.getId(), null);
+        createGroupAssigment(group1.getId(), user2.getId(), null);
+        createGroupAssigment(group2.getId(), user1.getId(), null);
+        createGroupAssigment(group2.getId(), user2.getId(), null);
+        createGroupAssigment(group3.getId(), user1.getId(), null);
+        createGroupAssigment(group3.getId(), user2.getId(), null);
+        createGroupAssigment(group3.getId(), user3.getId(), null);
+        createGroupAssigment(group4.getId(), user2.getId(), null);
+
+        createGroupAssigment(group3.getId(), null, vote1.getId());
+        createGroupAssigment(group1.getId(), null, vote2.getId());
+        createGroupAssigment(group2.getId(), null, vote2.getId());
+        createGroupAssigment(group3.getId(), null, vote2.getId());
+        createGroupAssigment(group4.getId(), null, vote2.getId());
+
 
         //create questions
         Question question1 = createQuestion("How often do you brush your teeth?");
@@ -134,5 +166,24 @@ public class VoteAppApplication {
         answer.setVote_id(voteId);
         answer.setAnswerContent(contentOfAnswer);
         answerRepository.save(answer);
+    }
+
+    private Group createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
+        Group group = new Group();
+        group.setName(groupName);
+        group.setDescription(groupDescription);
+        group.setActive(true);
+        group.setPublic(isPublic);
+        group.setOwner_id(authorId);
+        groupRepository.save(group);
+        return group;
+    }
+
+    private void createGroupAssigment(Long groupId, Long userId, Long voteId){
+        GroupAssigment assigment = new GroupAssigment();
+        assigment.setGroup_Id(groupId);
+        assigment.setUser_Id(userId);
+        assigment.setVote_Id(voteId);
+        groupAssigmentRepository.save(assigment);
     }
 }

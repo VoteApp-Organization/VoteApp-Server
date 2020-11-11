@@ -48,4 +48,13 @@ public class UserController {
         List<Group__c> groups = groupRepository.findAllById(groupsId);
         return groups;
     }
+
+    //EXAMPLE LOGIN BASIC FORM WITHOUT SAFE TOOLS
+    @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+    public User loginUser(@RequestBody User user) {
+        User userLogin = userRepository.findByPhoneEmail(user.getEmail());
+        if(userLogin == null || !userLogin.getPassword().equals(user.getPassword()))
+            return null;
+        return userLogin;
+    }
 }

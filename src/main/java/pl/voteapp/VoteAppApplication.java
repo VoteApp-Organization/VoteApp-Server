@@ -40,15 +40,16 @@ public class VoteAppApplication {
     InitializingBean loadInitialData() {
         return () -> {
             createExampleData();
+            System.out.println(userRepository.findAll());
         };
     }
 
     //Create example data for tests
     public void createExampleData() {
         //create users
-        User user1 = createUser("Marcin", "Marchewka","781098342", "Administrator");
-        User user2 = createUser("Tomasz", "Gońcher","72412342", "Client");
-        User user3 = createUser("Andrzej", "Szyszka","453098342", "Priest");
+        User user1 = createUser("Marcin", "Marchewka","781098342", "Administrator", "test1234");
+        User user2 = createUser("Tomasz", "Gońcher","72412342", "Client", "test1234");
+        User user3 = createUser("Andrzej", "Szyszka","453098342", "Priest", "test1234");
 
         //create votes
         Vote vote1 = createVote("Voting for the new President of United Spring Technologies!", user1.getId());
@@ -130,7 +131,7 @@ public class VoteAppApplication {
         return vote;
     }
 
-    private User createUser(String name, String city, String phone, String userType){
+    private User createUser(String name, String city, String phone, String userType, String password){
         User user = new User();
         user.setName(name);
         user.setActive(true);
@@ -138,6 +139,7 @@ public class VoteAppApplication {
         user.setEmail(name + "@gmail.com");
         user.setMobileNumber(phone);
         user.setUserType(userType);
+        user.setPassword(password);
         userRepository.save(user);
         return user;
     }

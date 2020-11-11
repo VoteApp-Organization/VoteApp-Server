@@ -20,6 +20,7 @@ public class User {
     private String password;
     private String street;
     private String userType;
+    private String roles;
 
     public User() {
     }
@@ -126,6 +127,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     @Override

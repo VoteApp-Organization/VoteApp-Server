@@ -1,7 +1,13 @@
 package pl.voteapp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.voteapp.ConstVariables;
+import pl.voteapp.exceptions.ApiError;
+import pl.voteapp.exceptions.CustomRestExceptionHandler;
 import pl.voteapp.model.Group__c;
 import pl.voteapp.model.GroupAssigment;
 import pl.voteapp.model.User;
@@ -27,8 +33,13 @@ public class UserController {
     private GroupRepository groupRepository;
 
     @GetMapping(path = {"userView/{id}"}, produces = "application/json")
-    public User getUser(@PathVariable("id") Optional<Long> id) {
-        return userRepository.findById(id.get()).get() ;
+    public ResponseEntity<Object> getUser(@PathVariable("id") Optional<Long> id) {
+        try{
+            return new ResponseEntity<>(userRepository.findById(id.get()).get(), HttpStatus.OK) ;
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_ID, ConstVariables.ERROR_MESSAGE_WRONG_PARAMETERS);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
     }
 
     @RequestMapping(value = "getUserGroups/{id}", method = RequestMethod.GET)
@@ -48,10 +59,12 @@ public class UserController {
 
     //EXAMPLE LOGIN BASIC FORM WITHOUT SAFE TOOLS
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public User loginUser(@RequestBody User user) {
-        User userLogin = userRepository.findByPhoneEmail(user.getEmail());
-        if(userLogin == null || !userLogin.getPassword().equals(user.getPassword()))
-            return null;
-        return userLogin;
+    public ResponseEntity<Object> loginUser(@RequestBody User user) {
+        try{
+            return new ResponseEntity<>(userRepository.findByPhoneEmail(user.getEmail()), HttpStatus.OK);
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
     }
 }

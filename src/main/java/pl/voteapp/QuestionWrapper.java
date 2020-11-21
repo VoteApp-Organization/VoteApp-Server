@@ -7,6 +7,7 @@ import java.sql.Date;
 
 public class QuestionWrapper {
 
+    private Long vote_Id;
     private String voteTitle;
     private Date createdDate;
     private Long author_id;
@@ -17,12 +18,10 @@ public class QuestionWrapper {
     private Boolean isMandatory;
     public Boolean answerHasBeenGiven;
     public Date voteDate;
-
-    public String getVoteTitle() {
-        return voteTitle;
-    }
+    public Integer numberOfQuestions;
 
     public QuestionWrapper(Vote vote, UserSurvey userQuestion) {
+        this.vote_Id = vote.getId();
         this.voteTitle = vote.getVoteTitle();
         this.createdDate = vote.getCreatedDate();
         this.author_id = vote.getAuthor_id();
@@ -30,8 +29,13 @@ public class QuestionWrapper {
         this.endDate = vote.getEndDate();
         this.isPublicVote = vote.getPublicVote();
         this.isMandatory = vote.getMandatory();
+        this.numberOfQuestions = vote.getNumberOfQuestions();
         this.answerHasBeenGiven = userQuestion.getAnswerHasBeenGiven();
         this.voteDate = userQuestion.getVoteDate();
+    }
+
+    public String getVoteTitle() {
+        return voteTitle;
     }
 
     public void setVoteTitle(String voteTitle) {

@@ -21,6 +21,7 @@ public class Vote {
     private Boolean isAnonymousVote;
     private Boolean isMandatory;
     private String votePassword;
+    private Integer numberOfQuestions;
 
     public Vote() {
     }
@@ -103,6 +104,14 @@ public class Vote {
 
     public void setVotePassword(String votePassword) {
         this.votePassword = votePassword;
+    }
+
+    public Integer getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
+    public void setNumberOfQuestions(Integer numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
     }
 
     @Override

@@ -7,15 +7,15 @@ import java.sql.Date;
 
 public class QuestionWrapper {
 
-    private Long vote_Id;
-    private String voteTitle;
-    private Date createdDate;
-    private Long author_id;
-    private Date startDate;
-    private Date endDate;
-    private Boolean isPublicVote;
-    private Boolean isAnonymousVote;
-    private Boolean isMandatory;
+    public Long vote_Id;
+    public String voteTitle;
+    public Date createdDate;
+    public Long author_id;
+    public Date startDate;
+    public Date endDate;
+    public Boolean isPublicVote;
+    public Boolean isAnonymousVote;
+    public Boolean isMandatory;
     public Boolean answerHasBeenGiven;
     public Date voteDate;
     public Integer numberOfQuestions;

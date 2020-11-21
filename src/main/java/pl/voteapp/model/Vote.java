@@ -1,5 +1,7 @@
 package pl.voteapp.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,8 @@ public class Vote {
     private Long id;
 
     private String voteTitle;
+    private String surveyDescription;
+    @CreationTimestamp
     private Date createdDate;
     private Long author_id;
     private Date startDate;
@@ -40,6 +44,14 @@ public class Vote {
 
     public void setVoteTitle(String voteTitle) {
         this.voteTitle = voteTitle;
+    }
+
+    public String getSurveyDescription() {
+        return surveyDescription;
+    }
+
+    public void setSurveyDescription(String surveyDescription) {
+        this.surveyDescription = surveyDescription;
     }
 
     public Date getCreatedDate() {

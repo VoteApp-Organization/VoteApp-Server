@@ -16,6 +16,15 @@ public class Answer {
     public Long question_id;
     public String answerContent;
 
+    public Answer() {
+    }
+
+    public Answer(Long vote_id, Long question_id, String answerContent) {
+        this.vote_id = vote_id;
+        this.question_id = question_id;
+        this.answerContent = answerContent;
+    }
+
     public Long getId() {
         return id;
     }

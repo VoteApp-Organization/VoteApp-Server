@@ -7,4 +7,6 @@ public class ConstVariables {
     public static final String ERROR_MESSAGE_NO_QUESTIONS = "There is no questions for specified combination User and Survey";
     public static final String ERROR_MESSAGE_WRONG_PARAMETERS = "Parameters in url are wrong or there is no entity/ies with this id";
     public static final String ERROR_MESSAGE_EMPTY_LIST_TO_RETURN = "Probably return list is empty";
+
+    public static final String ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
 }

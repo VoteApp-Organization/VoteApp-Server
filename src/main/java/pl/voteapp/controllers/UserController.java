@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.voteapp.ConstVariables;
 import pl.voteapp.exceptions.ApiError;
-import pl.voteapp.exceptions.CustomRestExceptionHandler;
 import pl.voteapp.model.Group__c;
 import pl.voteapp.model.GroupAssigment;
 import pl.voteapp.model.User;

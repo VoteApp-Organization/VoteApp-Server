@@ -1,68 +1,105 @@
 package pl.voteapp;
 
-import pl.voteapp.model.Question;
-import pl.voteapp.model.UserQuestion;
+import pl.voteapp.model.UserSurvey;
+import pl.voteapp.model.Vote;
 
 import java.sql.Date;
 
 public class QuestionWrapper {
 
-    public Long vote_id;
-    public String questionContent;
-    public Boolean multipleChoice;
-    public Boolean mandatoryQuestion;
-    public Integer maximumCapacityOfAnswer;
+    private String voteTitle;
+    private Date createdDate;
+    private Long author_id;
+    private Date startDate;
+    private Date endDate;
+    private Boolean isPublicVote;
+    private Boolean isAnonymousVote;
+    private Boolean isMandatory;
     public Boolean answerHasBeenGiven;
     public Date voteDate;
 
-    public QuestionWrapper(Question question, UserQuestion userQuestion) {
-        this.vote_id = question.getVote_id();
-        this.questionContent = question.getQuestionContent();
-        this.multipleChoice = question.getMultipleChoice();
-        this.mandatoryQuestion = question.getMandatoryQuestion();
-        this.maximumCapacityOfAnswer = question.getMaximumCapacityOfAnswer();
+    public String getVoteTitle() {
+        return voteTitle;
+    }
+
+    public QuestionWrapper(Vote vote, UserSurvey userQuestion) {
+        this.voteTitle = vote.getVoteTitle();
+        this.createdDate = vote.getCreatedDate();
+        this.author_id = vote.getAuthor_id();
+        this.startDate = vote.getStartDate();
+        this.endDate = vote.getEndDate();
+        this.isPublicVote = vote.getPublicVote();
+        this.isMandatory = vote.getMandatory();
         this.answerHasBeenGiven = userQuestion.getAnswerHasBeenGiven();
         this.voteDate = userQuestion.getVoteDate();
     }
 
-    public Long getVote_id() {
-        return vote_id;
+    public void setVoteTitle(String voteTitle) {
+        this.voteTitle = voteTitle;
     }
 
-    public void setVote_id(Long vote_id) {
-        this.vote_id = vote_id;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public String getQuestionContent() {
-        return questionContent;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+    public Long getAuthor_id() {
+        return author_id;
     }
 
-    public Boolean getMultipleChoice() {
-        return multipleChoice;
+    public void setAuthor_id(Long author_id) {
+        this.author_id = author_id;
     }
 
-    public void setMultipleChoice(Boolean multipleChoice) {
-        this.multipleChoice = multipleChoice;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public Boolean getMandatoryQuestion() {
-        return mandatoryQuestion;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setMandatoryQuestion(Boolean mandatoryQuestion) {
-        this.mandatoryQuestion = mandatoryQuestion;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public Integer getMaximumCapacityOfAnswer() {
-        return maximumCapacityOfAnswer;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public void setMaximumCapacityOfAnswer(Integer maximumCapacityOfAnswer) {
-        this.maximumCapacityOfAnswer = maximumCapacityOfAnswer;
+    public Boolean getPublicVote() {
+        return isPublicVote;
+    }
+
+    public void setPublicVote(Boolean publicVote) {
+        isPublicVote = publicVote;
+    }
+
+    public Boolean getAnonymousVote() {
+        return isAnonymousVote;
+    }
+
+    public void setAnonymousVote(Boolean anonymousVote) {
+        isAnonymousVote = anonymousVote;
+    }
+
+    public Boolean getMandatory() {
+        return isMandatory;
+    }
+
+    public void setMandatory(Boolean mandatory) {
+        isMandatory = mandatory;
+    }
+
+    public Date getVoteDate() {
+        return voteDate;
+    }
+
+    public void setVoteDate(Date voteDate) {
+        this.voteDate = voteDate;
     }
 
     public Boolean getAnswerHasBeenGiven() {

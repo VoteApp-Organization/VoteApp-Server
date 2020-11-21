@@ -51,8 +51,69 @@ public class VoteAppApplication {
         User user3 = createUser("Andrzej", "Szyszka","453098342", "Priest");
 
         //create votes
-        Vote vote1 = createVote("Voting for the new President of United Spring Technologies!", user1.getId());
-        Vote vote2 = createVote("Vote for good people!", user1.getId());
+        Vote vote1 = createVote(
+                "Voting for the new President of United Spring Technologies!",
+                null,
+                "We are choosing new head of Spring Technology land",
+                3,
+                user1.getId(),
+                false, 5, 10, 19, 10);
+        Vote vote2 = createVote("Vote for good people!",
+                null,
+                "Choose somebody who were helpful for you in last days",
+                4,
+                user1.getId(),
+                true, 25,10,28,10);
+        Vote vote3 = createVote("Choose the funniest animal",
+                "haslo1234",
+                "We need to make decision, which animal is the funniest one! Through the years we were thinking" +
+                        "that the cat rules in the internet, but now hamsters and owls want to change that!",
+                3,
+                user3.getId(),
+                true,6,12,24,12);
+        Vote vote4 = createVote("Back.Choose your symptoms",
+                "bedzieHashowaneHaslo",
+                "We are conducting research on the XYZ disease, tell us about your symptoms",
+                2,
+                user1.getId(),
+                false, 15,10,19,10);
+        Vote vote5 = createVote("What we should by Jarek for his Birthday",
+                "hasloMaslo",
+                "New trousers or Wyborowa 0.7, or 2x Krupnik 0.5",
+                1,
+                user2.getId(),
+                false, 23,11,25,11);
+        Vote vote6 = createVote("Iphone12 survey",
+                null,
+                "What do you think about Iphone 12, describe you feelings. Rate 0-10",
+                1,
+                user2.getId(),
+                true, 27,11,30,11);
+        Vote vote7 = createVote("Who is better CR7, Messi Or Ronaldo?",
+                null,
+                "Who is better?",
+                1,
+                user2.getId(),
+                true, 17,10,17,12);
+        Vote vote8 = createVote("Rate scenario in new Tarantino movie",
+                null,
+                "Describe your feelings about Tarantino movie's scenario.",
+                1,
+                user2.getId(),
+                true, 15,10,15,12);
+        Vote vote9 = createVote("Intel or Radeon!",
+                null,
+                "Choose light side of power!",
+                1,
+                user2.getId(),
+                true, 1,11,1,12);
+        Vote vote10 = createVote("Fast and furious, whats next?",
+                null,
+                "Help us to make decision about future of legendary film series",
+                8,
+                user2.getId(),
+                true, 1,12,21,12);
+
 
         //create groups
         Group__c group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1.getId());
@@ -119,13 +180,20 @@ public class VoteAppApplication {
         createAnswer(vote2.getId(), question7.getId(), "Tabaluga");
     }
 
-    private Vote createVote(String name, Long authorId){
+    private Vote createVote(String name, String password, String description,
+                            Integer numberOfQuestion, Long authorId, Boolean isPublic,
+                            Integer startDay, Integer startMonth, Integer endDay, Integer endMonth) {
         Vote vote = new Vote();
         vote.setVoteTitle(name);
+        vote.setStartDate(Utils.getCurrentDate(2020, startMonth, startDay));
+        vote.setEndDate(Utils.getCurrentDate(2020,endMonth,endDay));
+        vote.setAuthor_id(authorId);
+        vote.setPublicVote(isPublic);
         vote.setAnonymousVote(true);
         vote.setMandatory(false);
-        //vote.setStartDate((java.sql.Date) Utils.getCurrentDate());
-        vote.setAuthor_id(authorId);
+        vote.setSurveyDescription(description);
+        vote.setVotePassword(password);
+        vote.setNumberOfQuestions(numberOfQuestion);
         voteRepository.save(vote);
         return vote;
     }

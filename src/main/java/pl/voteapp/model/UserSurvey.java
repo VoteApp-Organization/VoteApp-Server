@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-public class UserQuestion {
+public class UserSurvey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Long question_id;
+    public Long survey_id;
     public Boolean answerHasBeenGiven;
     public Long user_id;
     public Date voteDate;
@@ -25,12 +25,12 @@ public class UserQuestion {
         this.id = id;
     }
 
-    public Long getQuestion_id() {
-        return question_id;
+    public Long getSurvey_id() {
+        return survey_id;
     }
 
     public void setQuestion_id(Long question_id) {
-        this.question_id = question_id;
+        this.survey_id = question_id;
     }
 
     public Boolean getAnswerHasBeenGiven() {
@@ -59,6 +59,6 @@ public class UserQuestion {
 
     @Override
     public String toString() {
-        return "QuestionId " + question_id + " given: " + answerHasBeenGiven;
+        return "QuestionId " + survey_id + " given: " + answerHasBeenGiven;
     }
 }

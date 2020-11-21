@@ -21,7 +21,7 @@ public class VoteAppApplication {
     private QuestionRepository questionRepository;
 
     @Autowired
-    private UserQuestionRepository userQuestionRepository;
+    private UserSurveyRepository userSurveyRepository;
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -87,13 +87,13 @@ public class VoteAppApplication {
         Question question7 = createQuestion("What is your favourite movie?", vote2.getId());
 
         //create assigments
-        createUserQuestion(vote1.getId(), question1.getId());
-        createUserQuestion(vote1.getId(), question2.getId());
-        createUserQuestion(vote1.getId(), question3.getId());
-        createUserQuestion(vote2.getId(), question4.getId());
-        createUserQuestion(vote2.getId(), question5.getId());
-        createUserQuestion(vote2.getId(), question6.getId());
-        createUserQuestion(vote2.getId(), question7.getId());
+        createUserSurvey(vote1.getId(), question1.getId());
+        createUserSurvey(vote1.getId(), question2.getId());
+        createUserSurvey(vote1.getId(), question3.getId());
+        createUserSurvey(vote2.getId(), question4.getId());
+        createUserSurvey(vote2.getId(), question5.getId());
+        createUserSurvey(vote2.getId(), question6.getId());
+        createUserSurvey(vote2.getId(), question7.getId());
 
         //i think we can delete voteId from object Vote later
         createAnswer(vote1.getId(), question1.getId(), "2x per day");
@@ -154,12 +154,12 @@ public class VoteAppApplication {
         return question;
     }
 
-    private void createUserQuestion(Long userId, Long questionId){
-        UserQuestion userQuestion = new UserQuestion();
+    private void createUserSurvey(Long userId, Long questionId){
+        UserSurvey userQuestion = new UserSurvey();
         userQuestion.setAnswerHasBeenGiven(true);
         userQuestion.setUser_id(userId);
         userQuestion.setQuestion_id(questionId);
-        userQuestionRepository.save(userQuestion);
+        userSurveyRepository.save(userQuestion);
     }
 
     private void createAnswer(Long voteId, Long questionId, String contentOfAnswer){

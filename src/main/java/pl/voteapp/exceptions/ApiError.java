@@ -25,9 +25,6 @@ public class ApiError {
         errors = Arrays.asList(error);
     }
 
-    public ApiError(HttpStatus httpVersionNotSupported, String no_kurwa) {
-    }
-
     public HttpStatus getStatus() {
         return status;
     }

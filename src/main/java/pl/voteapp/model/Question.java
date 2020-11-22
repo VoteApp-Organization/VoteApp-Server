@@ -1,9 +1,7 @@
 package pl.voteapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Question {
@@ -16,6 +14,9 @@ public class Question {
     public Boolean multipleChoice;
     public Boolean mandatoryQuestion;
     public Integer maximumCapacityOfAnswer;
+    public String questionType;
+    @ElementCollection
+    public List<String> picklistValues;
 
     public Long getId() {
         return id;
@@ -63,6 +64,22 @@ public class Question {
 
     public void setMaximumCapacityOfAnswer(Integer maximumCapacityOfAnswer) {
         this.maximumCapacityOfAnswer = maximumCapacityOfAnswer;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
+
+    public List<String> getPicklistValues() {
+        return picklistValues;
+    }
+
+    public void setPicklistValues(List<String> picklistValues) {
+        this.picklistValues = picklistValues;
     }
 
     @Override

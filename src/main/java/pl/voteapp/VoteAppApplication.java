@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import pl.voteapp.model.*;
 import pl.voteapp.repository.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootApplication
 public class VoteAppApplication {
 
@@ -49,9 +52,10 @@ public class VoteAppApplication {
         Long user1 = createUser("Marcin", "Marchewka","781098342", "Administrator");
         Long user2 = createUser("Tomasz", "Gońcher","77312442", "Client");
         Long user3 = createUser("Jakub", "Gońcher","7492342", "Client");
-        Long user4 = createUser("Marian", "Gońcher","72483762", "Client");
+        Long user4 = createUser("Marian", "Gońcher","62483762", "Client");
         Long user5 = createUser("Agnieszka", "Orzeszek","7241642", "Client");
-        Long user6 = createUser("Andrzej", "Szyszka","453098342", "Priest");
+        Long user6 = createUser("Maja", "Wiesławska","5251349", "Client");
+        Long user7 = createUser("Andrzej", "Szyszka","453098342", "Priest");
 
         //create votes
         Long vote1 = createVote(
@@ -71,7 +75,7 @@ public class VoteAppApplication {
                 "haslo1234",
                 "We need to make decision, which animal is the funniest one! Through the years we were thinking" +
                         "that the cat rules in the internet, but now hamsters and owls want to change that!",
-                3,
+                10,
                 user3,
                 true,6,12,24,12);
         Long vote4 = createVote("Back.Choose your symptoms",
@@ -116,71 +120,127 @@ public class VoteAppApplication {
                 8,
                 user2,
                 true, 1,12,21,12);
+        Long vote11 = createVote("Poland imperial plans?",
+                null,
+                "Help us to make decision about, we like holidays at Lvov",
+                1,
+                user7,
+                true, 1,12,21,12);
 
 
         //create groups
-        Group__c group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1);
-        Group__c group2 = createGroup("College", "Best group ever", false, user1);
-        Group__c group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1);
-        Group__c group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2);
+        Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1);
+        Long group2 = createGroup("College", "Best group ever", false, user1);
+        Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1);
+        Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2);
 
         //create assigments groups
-        createGroupAssigment(group1.getId(), user1, null);
-        createGroupAssigment(group1.getId(), user2, null);
-        createGroupAssigment(group2.getId(), user1, null);
-        createGroupAssigment(group2.getId(), user2, null);
-        createGroupAssigment(group3.getId(), user1, null);
-        createGroupAssigment(group3.getId(), user2, null);
-        createGroupAssigment(group3.getId(), user3, null);
-        createGroupAssigment(group4.getId(), user2, null);
+        //groups to user
+        createGroupAssigment(group1, user1, null);
+        createGroupAssigment(group1, user2, null);
+        createGroupAssigment(group2, user1, null);
+        createGroupAssigment(group2, user2, null);
+        createGroupAssigment(group3, user1, null);
+        createGroupAssigment(group3, user2, null);
+        createGroupAssigment(group3, user3, null);
+        createGroupAssigment(group3, user4, null);
+        createGroupAssigment(group3, user5, null);
+        createGroupAssigment(group3, user6, null);
+        createGroupAssigment(group3, user7, null);
+        createGroupAssigment(group4, user2, null);
 
-        createGroupAssigment(group3.getId(), null, vote1);
-        createGroupAssigment(group1.getId(), null, vote2);
-        createGroupAssigment(group2.getId(), null, vote2);
-        createGroupAssigment(group3.getId(), null, vote2);
-        createGroupAssigment(group4.getId(), null, vote2);
+        //groups to vote
+        createGroupAssigment(group3, null, vote1);
+        createGroupAssigment(group1, null, vote2);
+        createGroupAssigment(group2, null, vote2);
+        createGroupAssigment(group3, null, vote2);
+        createGroupAssigment(group4, null, vote2);
+
+        createGroupAssigment(group3, null, vote3);
+        createGroupAssigment(group3, null, vote4);
+        createGroupAssigment(group3, null, vote5);
+        createGroupAssigment(group3, null, vote6);
+        createGroupAssigment(group3, null, vote7);
+        createGroupAssigment(group3, null, vote8);
+        createGroupAssigment(group3, null, vote9);
+        createGroupAssigment(group3, null, vote10);
+        createGroupAssigment(group3, null, vote11);
 
 
         //create questions
-        Question question1 = createQuestion("How often do you brush your teeth?", vote1);
-        Question question2 = createQuestion("Do you like animals?", vote1);
-        Question question3 = createQuestion("Have you ever been in Germany?", vote1);
-        Question question4 = createQuestion("How many ECTS did you get?", vote2);
-        Question question5 = createQuestion("Do you play soccer?", vote2);
-        Question question6 = createQuestion("Resolve equation 2+2*2", vote2);
-        Question question7 = createQuestion("What is your favourite movie?", vote2);
+        //question of vote1
+        Long question1 = createQuestion("How often do you brush your teeth?", vote1, null, null);
+        Long question2 = createQuestion("Do you like animals?", vote1, null, null);
+        Long question3 = createQuestion("Have you ever been in Germany?", vote1, null, null);
+        //question of vote2
+        Long question4 = createQuestion("How many ECTS did you get?", vote2, null, null);
+        Long question5 = createQuestion("Do you play soccer?", vote2, null, null);
+        Long question6 = createQuestion("Resolve equation 2+2*2", vote2, null, null);
+        Long question7 = createQuestion("What is your favourite movie?", vote2, null, null);
+        //question of vote3
+        Long question8 = createQuestion("Elephant of giraffe?", vote3, "Picklist", Arrays.asList("Elephant", "Giraffe"));
+        Long question9 = createQuestion("Dog or cat?", vote3, "Picklist", Arrays.asList("Dog", "Cat"));
+        Long question10 = createQuestion("Owl or mockingbird", vote3, "Picklist", Arrays.asList("Owl", "Mockingbird"));
+        Long question11 = createQuestion("Goat or horse?", vote3, "Picklist", Arrays.asList("Goat", "Horse"));
+        Long question12 = createQuestion("Monkey or snake?", vote3, "Picklist", Arrays.asList("Monkey", "Snake"));
+        Long question13 = createQuestion("Lion or Tiger?", vote3, "Picklist", Arrays.asList("Lion", "Tiger"));
+        Long question14 = createQuestion("Duck or chicken?", vote3, "Picklist", Arrays.asList("Duck", "Chicken"));
+        Long question15 = createQuestion("Bear or alligator?", vote3, "Picklist", Arrays.asList("Bear", "Alligator"));
+        Long question16 = createQuestion("Hippo or rhino?", vote3, "Picklist", Arrays.asList("Hippo", "Rhino"));
+        Long question17 = createQuestion("Whale or seal?", vote3, "Picklist", Arrays.asList("Whale", "Seal"));
+        //question of vote4
+        Long question18 = createQuestion("Do you have back cramps? Describe them.", vote4, null, null);
+        Long question19 = createQuestion("Do you have back tremors? Describe them", vote4, null, null);
+        //question of vote5
+        Long question20 = createQuestion("Do you have any idea for a gift for Jaro?", vote5, null, null);
+        //question of vote6
+        Long question21 = createQuestion("Rate your feelings about new iPhone", vote6, null, null);
+        //question of vote7
+        Long question22 = createQuestion("Choose one!", vote7, null, null);
+        //question of vote8
+        Long question23 = createQuestion("Rate scenario! Describe your impressions", vote8, null, null);
+        //question of vote9
+        Long question24 = createQuestion("One cannot live while the other is alive", vote9, null, null);
+        //question of vote10
+        Long question25 = createQuestion("What do you think, what should be the next step for the family", vote10, null, null);
+        //question of vote10
+        Long question26 = createQuestion("Should we invade Ukraine?", vote11, "Checkbox", null);
 
-        //create assigments
-        createUserSurvey(vote1, question1.getId());
-        createUserSurvey(vote1, question2.getId());
-        createUserSurvey(vote1, question3.getId());
-        createUserSurvey(vote2, question4.getId());
-        createUserSurvey(vote2, question5.getId());
-        createUserSurvey(vote2, question6.getId());
-        createUserSurvey(vote2, question7.getId());
 
-        //i think we can delete voteId from object Vote later
-        createAnswer(vote1, question1.getId(), "2x per day");
-        createAnswer(vote1, question1.getId(), "3x per day");
-        createAnswer(vote1, question1.getId(), "Never");
-        createAnswer(vote1, question2.getId(), "Yes");
-        createAnswer(vote1, question2.getId(), "Oh yeees");
-        createAnswer(vote1, question2.getId(), "No man");
-        createAnswer(vote1, question3.getId(), "Never");
-        createAnswer(vote1, question3.getId(), "Once");
-        createAnswer(vote1, question3.getId(), "No, but I am going to visit this country next summer hihi");
-        createAnswer(vote2, question4.getId(), "20");
-        createAnswer(vote2, question4.getId(), "30");
-        createAnswer(vote2, question4.getId(), "40");
-        createAnswer(vote2, question5.getId(), "nope");
-        createAnswer(vote2, question5.getId(), "yea");
-        createAnswer(vote2, question5.getId(), "Mhm");
-        createAnswer(vote2, question6.getId(), "12");
-        createAnswer(vote2, question6.getId(), "4");
-        createAnswer(vote2, question6.getId(), "8");
-        createAnswer(vote2, question7.getId(), "Jumanji");
-        createAnswer(vote2, question7.getId(), "Pulp Fiction");
-        createAnswer(vote2, question7.getId(), "Tabaluga");
+        //create assigments, do we need assigments question to vote when question has reference to vote?
+        /*
+        createUserSurvey(vote1, question1);
+        createUserSurvey(vote1, question2);
+        createUserSurvey(vote1, question3);
+
+        createUserSurvey(vote2, question4);
+        createUserSurvey(vote2, question5);
+        createUserSurvey(vote2, question6);
+        createUserSurvey(vote2, question7);
+         */
+
+        //createAnswer
+        createAnswer(vote1, question1, "2x per day");
+        createAnswer(vote1, question1, "3x per day");
+        createAnswer(vote1, question1, "Never");
+        createAnswer(vote1, question2, "Yes");
+        createAnswer(vote1, question2, "Oh yeees");
+        createAnswer(vote1, question2, "No man");
+        createAnswer(vote1, question3, "Never");
+        createAnswer(vote1, question3, "Once");
+        createAnswer(vote1, question3, "No, but I am going to visit this country next summer hihi");
+        createAnswer(vote2, question4, "20");
+        createAnswer(vote2, question4, "30");
+        createAnswer(vote2, question4, "40");
+        createAnswer(vote2, question5, "nope");
+        createAnswer(vote2, question5, "yea");
+        createAnswer(vote2, question5, "Mhm");
+        createAnswer(vote2, question6, "12");
+        createAnswer(vote2, question6, "4");
+        createAnswer(vote2, question6, "8");
+        createAnswer(vote2, question7, "Jumanji");
+        createAnswer(vote2, question7, "Pulp Fiction");
+        createAnswer(vote2, question7, "Tabaluga");
     }
 
     private Long createVote(String name, String password, String description,
@@ -214,15 +274,17 @@ public class VoteAppApplication {
         return user.getId();
     }
 
-    private Question createQuestion(String questionContent, Long questionId){
+    private Long createQuestion(String questionContent, Long voteId, String questionType, List<String> picklistValues){
         Question question = new Question();
-        question.setVote_id(questionId);
+        question.setVote_id(voteId);
         question.setMandatoryQuestion(true);
         question.setMaximumCapacityOfAnswer(50);
         question.setMultipleChoice(false);
         question.setQuestionContent(questionContent);
+        question.setQuestionType(questionType);
+        question.setPicklistValues(picklistValues);
         questionRepository.save(question);
-        return question;
+        return question.getId();
     }
 
     private void createUserSurvey(Long userId, Long questionId){
@@ -241,7 +303,7 @@ public class VoteAppApplication {
         answerRepository.save(answer);
     }
 
-    private Group__c createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
+    private Long createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
         Group__c group = new Group__c();
         group.setName(groupName);
         group.setDescription(groupDescription);
@@ -249,7 +311,7 @@ public class VoteAppApplication {
         group.setPublic(isPublic);
         group.setOwner_id(authorId);
         groupRepository.save(group);
-        return group;
+        return group.getId();
     }
 
     private void createGroupAssigment(Long groupId, Long userId, Long voteId){

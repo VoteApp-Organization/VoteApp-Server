@@ -12,6 +12,8 @@ public class ConstVariables {
     public static final String ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
     public static final String GROUP_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
 
+    public static final String GROUP_HAS_BEEN_FOUND = "Group has been found successfully";
+
     public static final String UPDATE_SUCCESSFUL = "Record updated successfully";
     public static final String INSERT_SUCCESSFUL = "Record deleted successfully";
     public static final String DELETE_SUCCESSFUL = "Record inserted successfully";
@@ -21,5 +23,6 @@ public class ConstVariables {
 
     public static final String OT_ANSWER = "Answer";
     public static final String OT_GROUP = "Group";
+    public static final String OT_GROUP_ASSIGNMENT = "GroupAssignment";
     public static final String OT_USER_SURVEY = "UserSurvey";
 }

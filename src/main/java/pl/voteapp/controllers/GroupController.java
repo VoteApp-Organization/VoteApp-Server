@@ -36,12 +36,19 @@ public class GroupController {
         List<UserSurvey> userSurveys = userSurveyRepository.findUserSurveys(userId);
         List<GroupAssigment> surveysAssigments = groupAssigmentRepository.findAssigmentGroupToVote(groupId);
 
+        System.out.println(userSurveys);
+        System.out.println(userSurveys.size());
+
+        System.out.println(surveysAssigments);
+        System.out.println(surveysAssigments.size());
         //getting user assigments to votes by group
         Set<Long> voteIds = new HashSet<Long>();
         for (GroupAssigment assigment : surveysAssigments) {
             voteIds.add(assigment.getVote_Id());
         }
         List<Vote> surveys = voteRepository.findAllById(voteIds);
+        System.out.println(surveys);
+        System.out.println(surveys.size());
 
         //preparing wrapper
         List<QuestionWrapper> wrappers = new ArrayList<QuestionWrapper>();

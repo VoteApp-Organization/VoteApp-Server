@@ -288,27 +288,27 @@ public class VoteAppApplication {
         createUserSurvey(user7, vote11, false);
 
         //createAnswer
-        createAnswer(vote1, question1, null,"2x per day");
-        createAnswer(vote1, question1, null,"3x per day");
-        createAnswer(vote1, question1, null,"Never");
-        createAnswer(vote1, question2, null,"Yes");
-        createAnswer(vote1, question2, null,"Oh yeees");
-        createAnswer(vote1, question2, null,"No man");
-        createAnswer(vote1, question3, null,"Never");
-        createAnswer(vote1, question3, null,"Once");
-        createAnswer(vote1, question3, null,"No, but I am going to visit this country next summer hihi");
-        createAnswer(vote2, question4, null,"20");
-        createAnswer(vote2, question4, null,"30");
-        createAnswer(vote2, question4, null,"40");
-        createAnswer(vote2, question5, null,"nope");
-        createAnswer(vote2, question5, null,"yea");
-        createAnswer(vote2, question5, null,"Mhm");
-        createAnswer(vote2, question6, null,"12");
-        createAnswer(vote2, question6, null,"4");
-        createAnswer(vote2, question6, null,"8");
-        createAnswer(vote2, question7, null,"Jumanji");
-        createAnswer(vote2, question7, null,"Pulp Fiction");
-        createAnswer(vote2, question7, null,"Tabaluga");
+        createAnswer(vote1, question1, null,Arrays.asList("2x per day"));
+        createAnswer(vote1, question1, null,Arrays.asList("3x per day"));
+        createAnswer(vote1, question1, null,Arrays.asList("Never"));
+        createAnswer(vote1, question2, null,Arrays.asList("Yes"));
+        createAnswer(vote1, question2, null,Arrays.asList("Oh yeees"));
+        createAnswer(vote1, question2, null,Arrays.asList("No man"));
+        createAnswer(vote1, question3, null,Arrays.asList("Never"));
+        createAnswer(vote1, question3, null,Arrays.asList("Once"));
+        createAnswer(vote1, question3, null,Arrays.asList("No, but I am going to visit this country next summer hihi"));
+        createAnswer(vote2, question4, null,Arrays.asList("20","30"));
+        createAnswer(vote2, question4, null,Arrays.asList("30"));
+        createAnswer(vote2, question4, null,Arrays.asList("40"));
+        createAnswer(vote2, question5, null,Arrays.asList("nope"));
+        createAnswer(vote2, question5, null,Arrays.asList("yea"));
+        createAnswer(vote2, question5, null,Arrays.asList("Mhm"));
+        createAnswer(vote2, question6, null,Arrays.asList("12"));
+        createAnswer(vote2, question6, null,Arrays.asList("4"));
+        createAnswer(vote2, question6, null,Arrays.asList("8"));
+        createAnswer(vote2, question7, null,Arrays.asList("Jumanji"));
+        createAnswer(vote2, question7, null,Arrays.asList("Pulp Fiction"));
+        createAnswer(vote2, question7, null,Arrays.asList("Tabaluga"));
     }
 
     private Long createVote(String name, String password, String description,
@@ -364,7 +364,7 @@ public class VoteAppApplication {
         userSurveyRepository.save(userQuestion);
     }
 
-    private void createAnswer(Long voteId, Long questionId, Long userId, String contentOfAnswer){
+    private void createAnswer(Long voteId, Long questionId, Long userId, List<String> contentOfAnswer){
         Answer answer = new Answer();
         answer.setQuestion_id(questionId);
         answer.setVote_id(voteId);

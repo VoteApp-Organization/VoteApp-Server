@@ -1,9 +1,7 @@
 package pl.voteapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Answer {
@@ -15,12 +13,13 @@ public class Answer {
     public Long vote_id;
     public Long question_id;
     public Long user_id;
-    public String answerContent;
+    @ElementCollection
+    public List<String> answerContent;
 
     public Answer() {
     }
 
-    public Answer(Long vote_id, Long question_id, String answerContent) {
+    public Answer(Long vote_id, Long question_id, List<String> answerContent) {
         this.vote_id = vote_id;
         this.question_id = question_id;
         this.answerContent = answerContent;
@@ -50,11 +49,11 @@ public class Answer {
         this.question_id = question_id;
     }
 
-    public String getAnswerContent() {
+    public List<String> getAnswerContent() {
         return answerContent;
     }
 
-    public void setAnswerContent(String answerContent) {
+    public void setAnswerContent(List<String> answerContent) {
         this.answerContent = answerContent;
     }
 

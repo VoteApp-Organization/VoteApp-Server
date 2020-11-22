@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.voteapp.AnswersWrapper;
 import pl.voteapp.ConstVariables;
 import pl.voteapp.Utils;
 import pl.voteapp.exceptions.ApiError;
@@ -27,15 +28,15 @@ public class AnswerController {
 
     @RequestMapping(value = "/saveAnswers", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<Object> saveUserAnswers(@RequestBody List<Answer> answerList) {
+    public ResponseEntity<Object> saveUserAnswers(@RequestBody AnswersWrapper answersWrapper) {
         List<String> transactions = new ArrayList<String>();
-        Optional<UserSurvey> survey = userSurveyRepository.findById(answerList.get(0).vote_id);
+        Optional<UserSurvey> survey = userSurveyRepository.findById(answersWrapper.answers.get(0).vote_id);
         survey.get().answerHasBeenGiven = true;
         survey.get().voteDate = Utils.getCurrentDate();
         userSurveyRepository.save(survey.get());
-        answerRepository.saveAll(answerList);
+        answerRepository.saveAll(answersWrapper.answers);
         transactions.add(ConstVariables.OT_ANSWER + " " + ConstVariables.UPDATE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + survey.get().getId());
-        transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + answerList.size());
+        transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + answersWrapper.answers.size());
 
         try{
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY, transactions);

@@ -15,6 +15,7 @@ public class Group__c {
     private String name;
     private String description;
     private Boolean isPublic;
+    private String groupPassword;
     private String pictureName;
     private Long owner_id;
 
@@ -56,6 +57,14 @@ public class Group__c {
 
     public void setPublic(Boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public String getGroupPassword() {
+        return groupPassword;
+    }
+
+    public void setGroupPassword(String groupPassword) {
+        this.groupPassword = groupPassword;
     }
 
     public String getPictureName() {

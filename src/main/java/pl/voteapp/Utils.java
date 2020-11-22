@@ -1,7 +1,6 @@
 package pl.voteapp;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 public class Utils {
 

@@ -107,11 +107,11 @@ public class VoteAppApplication {
                 1, user7, true, 1,12,21,12);
 
         //create groups
-        Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", false, user1);
-        Long group2 = createGroup("College", "Best group ever", false, user1);
-        Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, user1);
-        Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, user2);
-        Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, user8);
+        Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", true, "budget.png", user1);
+        Long group2 = createGroup("College", "Best group ever", true, "budget.png", user1);
+        Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, "budget.png", user1);
+        Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, "budget.png", user2);
+        Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, "budget.png", user8);
 
         //create group assignments
         //groups to user
@@ -173,14 +173,14 @@ public class VoteAppApplication {
 
         //create questions
         //question of vote1
-        Long question1 = createQuestion("How often do you brush your teeth?", vote1, null, null);
-        Long question2 = createQuestion("Do you like animals?", vote1, null, null);
-        Long question3 = createQuestion("Have you ever been in Germany?", vote1, null, null);
+        Long question1 = createQuestion("How often do you brush your teeth?", vote1, "String", null);
+        Long question2 = createQuestion("Do you like animals?", vote1, "String", null);
+        Long question3 = createQuestion("Have you ever been in Germany?", vote1, "String", null);
         //question of vote2
-        Long question4 = createQuestion("How many ECTS did you get?", vote2, null, null);
-        Long question5 = createQuestion("Do you play soccer?", vote2, null, null);
-        Long question6 = createQuestion("Resolve equation 2+2*2", vote2, null, null);
-        Long question7 = createQuestion("What is your favourite movie?", vote2, null, null);
+        Long question4 = createQuestion("How many ECTS did you get?", vote2, "String", null);
+        Long question5 = createQuestion("Do you play soccer?", vote2, "String", null);
+        Long question6 = createQuestion("Resolve equation 2+2*2", vote2, "String", null);
+        Long question7 = createQuestion("What is your favourite movie?", vote2, "String", null);
         //question of vote3
         Long question8 = createQuestion("Elephant of giraffe?", vote3, "Picklist", Arrays.asList("Elephant", "Giraffe"));
         Long question9 = createQuestion("Dog or cat?", vote3, "Picklist", Arrays.asList("Dog", "Cat"));
@@ -193,20 +193,20 @@ public class VoteAppApplication {
         Long question16 = createQuestion("Hippo or rhino?", vote3, "Picklist", Arrays.asList("Hippo", "Rhino"));
         Long question17 = createQuestion("Whale or seal?", vote3, "Picklist", Arrays.asList("Whale", "Seal"));
         //question of vote4
-        Long question18 = createQuestion("Do you have back cramps? Describe them.", vote4, null, null);
-        Long question19 = createQuestion("Do you have back tremors? Describe them", vote4, null, null);
+        Long question18 = createQuestion("Do you have back cramps? Describe them.", vote4, "String", null);
+        Long question19 = createQuestion("Do you have back tremors? Describe them", vote4, "String", null);
         //question of vote5
-        Long question20 = createQuestion("Do you have any idea for a gift for Jaro?", vote5, null, null);
+        Long question20 = createQuestion("Do you have any idea for a gift for Jaro?", vote5, "String", null);
         //question of vote6
-        Long question21 = createQuestion("Rate your feelings about new iPhone", vote6, null, null);
+        Long question21 = createQuestion("Rate your feelings about new iPhone", vote6, "String", null);
         //question of vote7
-        Long question22 = createQuestion("Choose one!", vote7, null, null);
+        Long question22 = createQuestion("Choose one!", vote7, "String", null);
         //question of vote8
-        Long question23 = createQuestion("Rate scenario! Describe your impressions", vote8, null, null);
+        Long question23 = createQuestion("Rate scenario! Describe your impressions", vote8, "String", null);
         //question of vote9
-        Long question24 = createQuestion("One cannot live while the other is alive", vote9, null, null);
+        Long question24 = createQuestion("One cannot live while the other is alive", vote9, "String", null);
         //question of vote10
-        Long question25 = createQuestion("What do you think, what should be the next step for the family", vote10, null, null);
+        Long question25 = createQuestion("What do you think, what should be the next step for the family", vote10, "String", null);
         //question of vote10
         Long question26 = createQuestion("Should we invade Ukraine?", vote11, "Checkbox", null);
 
@@ -373,12 +373,13 @@ public class VoteAppApplication {
         answerRepository.save(answer);
     }
 
-    private Long createGroup(String groupName, String groupDescription, Boolean isPublic, Long authorId){
+    private Long createGroup(String groupName, String groupDescription, Boolean isPublic, String pictureName, Long authorId){
         Group__c group = new Group__c();
         group.setName(groupName);
         group.setDescription(groupDescription);
         group.setActive(true);
         group.setPublic(isPublic);
+        group.setPictureName(pictureName);
         group.setOwner_id(authorId);
         groupRepository.save(group);
         return group.getId();

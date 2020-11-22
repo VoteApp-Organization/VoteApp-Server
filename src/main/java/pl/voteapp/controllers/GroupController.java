@@ -37,7 +37,7 @@ public class GroupController {
 
     @RequestMapping(value = "/createNewGroup", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<Object> saveUserAnswers(@RequestBody Group__c group) {
+    public ResponseEntity<Object> createGroup(@RequestBody Group__c group) {
         try{
             group.setActive(true);
             groupRepository.save(group);
@@ -47,6 +47,34 @@ public class GroupController {
             return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
+
+    @RequestMapping(value = "/leaveGroup", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public ResponseEntity<Object> leaveTheGroup(@RequestBody GroupAssigment groupAssigment) {
+        try{
+        groupAssigment = groupAssigmentRepository.findUserAssigmentToGroup(groupAssigment.getUser_Id(), groupAssigment.getGroup_Id());
+        groupAssigmentRepository.delete(groupAssigment);
+        List<String> transactions = new ArrayList<String>();
+        transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.DELETE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + groupAssigment.getId());
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_CREATED_SUCCESSFULLY, transactions);
+        return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
+
+    @GetMapping(path = {"getGroupsByName"}, produces = "application/json")
+    public ResponseEntity<Object> getGroupsByName(@RequestBody Group__c group) {
+        try{
+            List<Group__c> groups = groupRepository.findGroupByName(group.getName());
+            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
+            return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_EMPTY_LIST_TO_RETURN);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }

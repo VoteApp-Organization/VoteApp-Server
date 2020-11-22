@@ -10,6 +10,7 @@ public class ConstVariables {
     public static final String ERROR_MESSAGE_INSERT_FAILED = "Insert failed";
 
     public static final String ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
+    public static final String GROUP_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
 
     public static final String UPDATE_SUCCESSFUL = "Record updated successfully";
     public static final String INSERT_SUCCESSFUL = "Record deleted successfully";
@@ -19,5 +20,6 @@ public class ConstVariables {
     public static final String QUANTITY_PRESENT = "QUANTITY :" ;
 
     public static final String OT_ANSWER = "Answer";
+    public static final String OT_GROUP = "Group";
     public static final String OT_USER_SURVEY = "UserSurvey";
 }

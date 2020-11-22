@@ -15,6 +15,7 @@ public class Group__c {
     private String name;
     private String description;
     private Boolean isPublic;
+    private String pictureName;
     private Long owner_id;
 
     public Long getId() {
@@ -55,6 +56,14 @@ public class Group__c {
 
     public void setPublic(Boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 
     public Long getOwner_id() {

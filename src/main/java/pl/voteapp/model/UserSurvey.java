@@ -29,7 +29,7 @@ public class UserSurvey {
         return survey_id;
     }
 
-    public void setQuestion_id(Long question_id) {
+    public void setSurvey_id(Long question_id) {
         this.survey_id = question_id;
     }
 

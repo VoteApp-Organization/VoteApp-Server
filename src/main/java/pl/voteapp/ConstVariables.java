@@ -10,13 +10,14 @@ public class ConstVariables {
     public static final String ERROR_MESSAGE_INSERT_FAILED = "Insert failed";
 
     public static final String ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
-    public static final String GROUP_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
+    public static final String GROUP_HAS_BEEN_CREATED_SUCCESSFULLY = "Group has been created successfully";
+    public static final String GROUP_HAS_BEEN_LEFT_SUCCESSFULLY = "Group has been left successfully";
 
     public static final String GROUP_HAS_BEEN_FOUND = "Group has been found successfully";
 
     public static final String UPDATE_SUCCESSFUL = "Record updated successfully";
-    public static final String INSERT_SUCCESSFUL = "Record deleted successfully";
-    public static final String DELETE_SUCCESSFUL = "Record inserted successfully";
+    public static final String INSERT_SUCCESSFUL = "Record inserted successfully";
+    public static final String DELETE_SUCCESSFUL = "Record deleted successfully";
 
     public static final String ID_PRESENT = "ID :" ;
     public static final String QUANTITY_PRESENT = "QUANTITY :" ;

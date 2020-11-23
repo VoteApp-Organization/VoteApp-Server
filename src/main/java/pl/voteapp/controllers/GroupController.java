@@ -59,7 +59,7 @@ public class GroupController {
         groupAssigmentRepository.delete(groupAssigment);
         List<String> transactions = new ArrayList<String>();
         transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.DELETE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + groupAssigment.getId());
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_CREATED_SUCCESSFULLY, transactions);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_LEFT_SUCCESSFULLY, transactions);
         return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);

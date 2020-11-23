@@ -68,9 +68,9 @@ public class GroupController {
     }
 
     @GetMapping(path = {"getGroupsByName"}, produces = "application/json")
-    public ResponseEntity<Object> getGroupsByName(@RequestBody Group__c group) {
+    public ResponseEntity<Object> getGroupsByName(@RequestParam String searchName) {
         try{
-            List<Group__c> groups = groupRepository.findGroupByName(group.getName());
+            List<Group__c> groups = groupRepository.findGroupByName(searchName);
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
             return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){

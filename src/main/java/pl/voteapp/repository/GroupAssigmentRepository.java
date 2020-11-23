@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GroupAssigmentRepository extends JpaRepository<GroupAssigment, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Group_Assigment WHERE user_id = :userId")
+    @Query(nativeQuery = true, value = "SELECT * FROM Group_Assigment WHERE user_id = :userId OR author_Id = :userId")
     public List<GroupAssigment> findAssigmentUserToGroups(@Param("userId") Long userId);
 
     @Query(nativeQuery = true, value = "SELECT * FROM Group_Assigment WHERE group_id = :groupId AND vote_id IS NOT NULL")

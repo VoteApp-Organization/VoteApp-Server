@@ -44,11 +44,15 @@ public class UserController {
     @RequestMapping(value = "getUserGroups/{id}", method = RequestMethod.GET)
     public @ResponseBody
     List<Group__c> getGroups(@PathVariable("id") Optional<Long> userid){
-        //TODO
+        //getUserGroups
         //There must be easier way to get this data
         //To improve !
         List<GroupAssigment> groupAssigments = groupAssigmentRepository.findAssigmentUserToGroups(userid.get());
+        List<Long> authorGroupIds = groupRepository.findGroupByAuthorId(userid.get());
         Set<Long> groupsId = new HashSet<Long>();
+        for(Long currentId : authorGroupIds){
+            groupsId.add(currentId);
+        }
         for(GroupAssigment assigment : groupAssigments){
             groupsId.add(assigment.getGroup_Id());
         }

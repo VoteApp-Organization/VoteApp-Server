@@ -77,4 +77,20 @@ public class UserController {
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }
+
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    public ResponseEntity<Object> registerUser(@RequestHeader("ID-TOKEN") String idToken){
+        try{
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
+            User user = new User();
+            user.setEmail(userRecord.getEmail());
+            user.setName(userRecord.getDisplayName());
+            user.setMobileNumber(userRecord.getPhoneNumber());
+            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
 }

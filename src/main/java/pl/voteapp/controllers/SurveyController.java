@@ -45,9 +45,9 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/createNewSurvey", method = RequestMethod.POST)
-    public ResponseEntity<Object> createSurvey(@RequestHeader("ID-TOKEN") String idToken, @RequestBody Vote vote, @PathVariable("group_Id") Long group_Id) {
+    public ResponseEntity<Object> createSurvey(@RequestHeader("ID-TOKEN") String idToken, @RequestHeader("group_Id") Long group_Id, @RequestBody Vote vote) {
         try{
-            FirebaseAuth.getInstance().verifyIdToken(idToken);
+            //FirebaseAuth.getInstance().verifyIdToken(idToken);
             Vote newVote = voteRepository.save(vote);
             GroupAssigment assigment = new GroupAssigment();
             assigment.setGroup_Id(group_Id);

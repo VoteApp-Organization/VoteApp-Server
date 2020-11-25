@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.voteapp.ConstVariables;
 import pl.voteapp.exceptions.ApiError;
+import pl.voteapp.model.GroupAssigment;
 import pl.voteapp.model.Vote;
+import pl.voteapp.repository.GroupAssigmentRepository;
 import pl.voteapp.repository.QuestionRepository;
 import pl.voteapp.repository.UserSurveyRepository;
 import pl.voteapp.repository.VoteRepository;
@@ -29,6 +31,9 @@ public class SurveyController {
     @Autowired
     VoteRepository voteRepository;
 
+    @Autowired
+    GroupAssigmentRepository assigmentRepository;
+
     @RequestMapping(path = {"getQuestionsOnSurvey/{survey_Id}"}, produces = "application/json", method= RequestMethod.GET)
     public ResponseEntity<Object> getQuestions(@PathVariable("survey_Id") Long survey_Id) {
         try {
@@ -40,10 +45,15 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/createNewSurvey", method = RequestMethod.POST)
-    public ResponseEntity<Object> createSurvey(@RequestHeader("ID-TOKEN") String idToken, @RequestBody Vote vote) {
+    public ResponseEntity<Object> createSurvey(@RequestHeader("ID-TOKEN") String idToken, @RequestBody Vote vote, @PathVariable("group_Id") Long group_Id) {
         try{
             FirebaseAuth.getInstance().verifyIdToken(idToken);
-            return new ResponseEntity<>(voteRepository.save(vote), HttpStatus.OK);
+            Vote newVote = voteRepository.save(vote);
+            GroupAssigment assigment = new GroupAssigment();
+            assigment.setGroup_Id(group_Id);
+            assigment.setVote_Id(newVote.getId());
+            assigmentRepository.save(assigment);
+            return new ResponseEntity<>("Survey has been created successful", HttpStatus.OK);
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());

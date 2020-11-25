@@ -354,7 +354,6 @@ public class VoteAppApplication {
         user.setEmail(name + "@gmail.com");
         user.setMobileNumber(phone);
         user.setUserType(userType);
-        user.setPassword("test1234");
         userRepository.save(user);
         return user.getId();
     }

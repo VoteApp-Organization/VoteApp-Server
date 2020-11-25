@@ -17,7 +17,6 @@ public class User {
     private String mobileNumber;
     private String name;
     private String surname;
-    private String password;
     private String street;
     private String userType;
 
@@ -104,14 +103,6 @@ public class User {
         this.userType = userType;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -130,7 +121,7 @@ public class User {
 
     @Override
     public String toString() {
-        String string = (name + " " + email + " " + password + " " + userType);
+        String string = (name + " " + email + " " + userType);
         return string;
     }
 }

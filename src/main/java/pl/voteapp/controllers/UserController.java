@@ -3,6 +3,7 @@ package pl.voteapp.controllers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -64,12 +65,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken, @RequestHeader@RequestBody User user) {
+    public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken) throws FirebaseAuthException {
         try{
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
             String uid = decodedToken.getUid();
             System.out.println(uid);
-            return new ResponseEntity<>(userRepository.findByPhoneEmail(user.getEmail()), HttpStatus.OK);
+            return new ResponseEntity<>(userRepository.findByPhoneEmail(userRecord.getEmail()), HttpStatus.OK);
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());

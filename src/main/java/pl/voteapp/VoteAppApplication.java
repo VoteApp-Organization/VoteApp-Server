@@ -1,5 +1,8 @@
 package pl.voteapp;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import pl.voteapp.model.*;
 import pl.voteapp.repository.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +42,18 @@ public class VoteAppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(VoteAppApplication.class, args);
+        try {
+            FileInputStream serviceAccount =
+                    new FileInputStream("src/main/resources/firebase-authentication.json");
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("src/main/resources")
+                    .build();
+            FirebaseApp.initializeApp(options);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Bean

@@ -1,5 +1,8 @@
 package pl.voteapp.controllers;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -60,10 +63,12 @@ public class UserController {
         return groups;
     }
 
-    //EXAMPLE LOGIN BASIC FORM WITHOUT SAFE TOOLS
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public ResponseEntity<Object> loginUser(@RequestBody User user) {
+    public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken, @RequestHeader@RequestBody User user) {
         try{
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            String uid = decodedToken.getUid();
+            System.out.println(uid);
             return new ResponseEntity<>(userRepository.findByPhoneEmail(user.getEmail()), HttpStatus.OK);
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);

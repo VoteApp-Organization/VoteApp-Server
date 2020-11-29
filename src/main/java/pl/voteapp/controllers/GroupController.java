@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.voteapp.ConstVariables;
 import pl.voteapp.GroupAssigmentWrapper;
 import pl.voteapp.QuestionWrapper;
+import pl.voteapp.Utils;
 import pl.voteapp.exceptions.ApiError;
 import pl.voteapp.exceptions.ApiSuccess;
 import pl.voteapp.model.GroupAssigment;
@@ -40,6 +41,10 @@ public class GroupController {
     @ResponseBody
     public ResponseEntity<Object> createGroup(@RequestBody Group__c group) {
         try{
+            if(!group.getIs_public()){
+                Set<Long> groupPasswords = groupRepository.getAllPasswords();
+                group.setGroup_password(Utils.generateRandom(groupPasswords));
+            }
             group.setActive(true);
             groupRepository.save(group);
             List<String> transactions = new ArrayList<String>();
@@ -114,20 +119,23 @@ public class GroupController {
     @RequestMapping(value = "/joinGroup", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ResponseEntity<Object> joinGroup(@RequestBody GroupAssigmentWrapper groupAssigment) {
-        try{
+        try {
             Optional<Group__c> group = groupRepository.findById(groupAssigment.getGroup_Id());
-            if(group.isPresent()){
+            if (group.isPresent()) {
+                if (!group.get().getIs_public() && (groupAssigment.getPassword() == null || !groupAssigment.getPassword().equals(group.get().getGroup_password()))) {
+                    ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_INCORRECT_PASSWORD);
+                    return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+                }
                 GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(groupAssigment.getGroup_Id(), groupAssigment.getUser_Id()));
                 List<String> transactions = new ArrayList<String>();
                 transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newGroupAssigment.getId());
                 ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_JOINED, transactions);
                 return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
-
-            } else{
+            } else {
                 ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_GROUP_NOT_FOUND);
                 return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
             }
-        } catch(Exception ex){
+        } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.voteapp.ConstVariables;
+import pl.voteapp.GroupAssigmentWrapper;
 import pl.voteapp.QuestionWrapper;
 import pl.voteapp.exceptions.ApiError;
 import pl.voteapp.exceptions.ApiSuccess;
@@ -106,6 +107,28 @@ public class GroupController {
             return new ResponseEntity<Object>(wrappers, HttpStatus.OK);
         } else {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ConstVariables.ERROR_MESSAGE_EMPTY_LIST_TO_RETURN, ConstVariables.ERROR_MESSAGE_WRONG_PARAMETERS);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
+
+    @RequestMapping(value = "/joinGroup", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public ResponseEntity<Object> joinGroup(@RequestBody GroupAssigmentWrapper groupAssigment) {
+        try{
+            Optional<Group__c> group = groupRepository.findById(groupAssigment.getGroup_Id());
+            if(group.isPresent()){
+                GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(groupAssigment.getGroup_Id(), groupAssigment.getUser_Id()));
+                List<String> transactions = new ArrayList<String>();
+                transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newGroupAssigment.getId());
+                ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_JOINED, transactions);
+                return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
+
+            } else{
+                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_GROUP_NOT_FOUND);
+                return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+            }
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }

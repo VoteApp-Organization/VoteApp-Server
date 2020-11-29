@@ -57,6 +57,7 @@ public class SurveyController {
             assigment.setGroup_Id(group_Id);
             assigment.setVote_Id(newVote.getId());
             GroupAssigment groupAssigment = assigmentRepository.save(assigment);
+
             List<String> transactions = new ArrayList<String>();
             transactions.add(ConstVariables.OT_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newVote.getId());
             transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + groupAssigment.getId());

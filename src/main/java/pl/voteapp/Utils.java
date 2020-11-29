@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class Utils {
     public static String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String EMPTY_STRING = "";
 
     public static Date getCurrentDate(Integer year, Integer month, Integer day) {
         Date dateobj = new Date(year, month, day);

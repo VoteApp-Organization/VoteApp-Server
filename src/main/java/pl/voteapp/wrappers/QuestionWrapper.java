@@ -1,4 +1,4 @@
-package pl.voteapp;
+package pl.voteapp.wrappers;
 
 import pl.voteapp.model.UserSurvey;
 import pl.voteapp.model.Vote;

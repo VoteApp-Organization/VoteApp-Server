@@ -8,12 +8,16 @@ public class ConstVariables {
     public static final String ERROR_MESSAGE_WRONG_PARAMETERS = "Parameters in url are wrong or there is no entity/ies with this id";
     public static final String ERROR_MESSAGE_EMPTY_LIST_TO_RETURN = "Probably return list is empty";
     public static final String ERROR_MESSAGE_INSERT_FAILED = "Insert failed";
+    public static final String ERROR_MESSAGE_GROUP_NOT_FOUND = "Group not found";
+
+    public static final String ERROR_MESSAGE_INCORRECT_PASSWORD = "Password incorrect";
 
     public static final String ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY = "Answers has been created successfully";
     public static final String GROUP_HAS_BEEN_CREATED_SUCCESSFULLY = "Group has been created successfully";
     public static final String GROUP_HAS_BEEN_LEFT_SUCCESSFULLY = "Group has been left successfully";
 
     public static final String GROUP_HAS_BEEN_FOUND = "Group has been found successfully";
+    public static final String GROUP_HAS_BEEN_JOINED = "You have joined to group successfully";
 
     public static final String UPDATE_SUCCESSFUL = "Record updated successfully";
     public static final String INSERT_SUCCESSFUL = "Record inserted successfully";

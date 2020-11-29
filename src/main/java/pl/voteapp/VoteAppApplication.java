@@ -394,8 +394,8 @@ public class VoteAppApplication {
         group.setName(groupName);
         group.setDescription(groupDescription);
         group.setActive(true);
-        group.setPublic(isPublic);
-        group.setPictureName(pictureName);
+        group.setIs_public(isPublic);
+        group.setPicture_name(pictureName);
         group.setOwner_id(authorId);
         groupRepository.save(group);
         return group.getId();

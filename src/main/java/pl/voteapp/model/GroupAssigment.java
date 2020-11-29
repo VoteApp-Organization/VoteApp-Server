@@ -15,6 +15,14 @@ public class GroupAssigment {
     private Long vote_Id;
     private Long user_Id;
 
+    public GroupAssigment() {
+    }
+
+    public GroupAssigment(Long group_Id, Long user_Id) {
+        this.group_Id = group_Id;
+        this.user_Id = user_Id;
+    }
+
     public Long getId() {
         return id;
     }

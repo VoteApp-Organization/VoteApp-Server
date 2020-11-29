@@ -14,9 +14,9 @@ public class Group__c {
     private Boolean active;
     private String name;
     private String description;
-    private Boolean isPublic;
-    private String groupPassword;
-    private String pictureName;
+    private Boolean is_public;
+    private String group_password;
+    private String picture_name;
     private Long owner_id;
 
     public Long getId() {
@@ -51,28 +51,28 @@ public class Group__c {
         this.description = description;
     }
 
-    public Boolean getPublic() {
-        return isPublic;
+    public Boolean getIs_public() {
+        return is_public;
     }
 
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
+    public void setIs_public(Boolean is_public) {
+        this.is_public = is_public;
     }
 
-    public String getGroupPassword() {
-        return groupPassword;
+    public String getGroup_password() {
+        return group_password;
     }
 
-    public void setGroupPassword(String groupPassword) {
-        this.groupPassword = groupPassword;
+    public void setGroup_password(String group_password) {
+        this.group_password = group_password;
     }
 
-    public String getPictureName() {
-        return pictureName;
+    public String getPicture_name() {
+        return picture_name;
     }
 
-    public void setPictureName(String pictureName) {
-        this.pictureName = pictureName;
+    public void setPicture_name(String picture_name) {
+        this.picture_name = picture_name;
     }
 
     public Long getOwner_id() {
@@ -85,6 +85,6 @@ public class Group__c {
 
     @Override
     public String toString() {
-        return "Group " + name + " is active?: " + active + " is public: " + isPublic + " description " + description;
+        return "Group " + name + " is active?: " + active + " is public: " + is_public + " description " + description;
     }
 }

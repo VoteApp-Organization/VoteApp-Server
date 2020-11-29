@@ -73,6 +73,29 @@ public class GroupController {
         }
     }
 
+    @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public ResponseEntity<Object> deleteGroup(@RequestBody GroupAssigment groupAssigment) {
+        try{
+            Optional<Group__c> group = groupRepository.findById(groupAssigment.getUser_Id());
+            if (!group.get().getOwner_id().equals(groupAssigment.getUser_Id())) {
+                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_ONLY_GROUP_OWNER_CAN_DELETE_GROUP);
+                return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+            }
+            groupRepository.delete(group.get());
+            List<GroupAssigment> groupAssignments = groupAssigmentRepository.findAllAssignmentsToGroup(groupAssigment.getGroup_Id());
+            groupAssigmentRepository.deleteAll(groupAssignments);
+            List<String> transactions = new ArrayList<String>();
+            transactions.add(ConstVariables.OT_GROUP + " " + ConstVariables.DELETE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + group.get().getId());
+            transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.DELETE_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + groupAssignments.size());
+            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_LEFT_SUCCESSFULLY, transactions);
+            return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
+
     @GetMapping(path = {"getGroupsByName"}, produces = "application/json")
     public ResponseEntity<Object> getGroupsByName(@RequestParam String searchName) {
         try{

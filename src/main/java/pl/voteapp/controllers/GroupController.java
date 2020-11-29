@@ -143,7 +143,13 @@ public class GroupController {
     @ResponseBody
     public ResponseEntity<Object> joinGroup(@RequestBody GroupAssigmentWrapper groupAssigment) {
         try {
-            Optional<Group__c> group = groupRepository.findById(groupAssigment.getGroup_Id());
+            Optional<Group__c> group;
+            if(!groupAssigment.getGroup_Id().equals(Utils.EMPTY_STRING)){
+                group = groupRepository.findById(groupAssigment.getGroup_Id());
+            }else{
+                group = groupRepository.findGroupByPassword(groupAssigment.getPassword());
+            }
+
             if (group.isPresent()) {
                 if (!group.get().getIs_public() && (groupAssigment.getPassword() == null || !groupAssigment.getPassword().equals(group.get().getGroup_password()))) {
                     ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_INCORRECT_PASSWORD);

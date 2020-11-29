@@ -1,4 +1,4 @@
-package pl.voteapp;
+package pl.voteapp.wrappers;
 
 public class GroupAssigmentWrapper {
     private Long group_Id;

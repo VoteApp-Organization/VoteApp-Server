@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import pl.voteapp.model.Group__c;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GroupRepository extends JpaRepository<Group__c, Long> {
 
@@ -14,4 +15,7 @@ public interface GroupRepository extends JpaRepository<Group__c, Long> {
 
     @Query(nativeQuery = true, value = "SELECT Id FROM Group__c WHERE owner_id = :userId")
     public List<Long> findGroupByAuthorId(@Param("userId") Long userId);
+
+    @Query(nativeQuery = true, value = "SELECT group_password FROM Group__c WHERE is_public = TRUE")
+    public Set<Long> getAllPasswords();
 }

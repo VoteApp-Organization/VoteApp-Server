@@ -10,6 +10,7 @@ public class ConstVariables {
     public static final String ERROR_MESSAGE_EMPTY_LIST_TO_RETURN = "Probably return list is empty";
     public static final String ERROR_MESSAGE_INSERT_FAILED = "Insert failed";
     public static final String ERROR_MESSAGE_GROUP_NOT_FOUND = "Group not found";
+    public static final String ERROR_MESSAGE_ONLY_GROUP_OWNER_CAN_DELETE_GROUP = "Only group owner can delete group";
 
     public static final String ERROR_MESSAGE_INCORRECT_PASSWORD = "Password incorrect";
 

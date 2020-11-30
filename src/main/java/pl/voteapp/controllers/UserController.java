@@ -37,9 +37,9 @@ public class UserController {
 
     @GetMapping(path = {"userView/{id}"}, produces = "application/json")
     public ResponseEntity<Object> getUser(@PathVariable("id") Optional<Long> id) {
-        try{
-            return new ResponseEntity<>(userRepository.findById(id.get()).get(), HttpStatus.OK) ;
-        } catch(Exception ex){
+        try {
+            return new ResponseEntity<>(userRepository.findById(id.get()).get(), HttpStatus.OK);
+        } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_ID, ConstVariables.ERROR_MESSAGE_WRONG_PARAMETERS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
@@ -47,17 +47,14 @@ public class UserController {
 
     @RequestMapping(value = "getUserGroups/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    List<Group__c> getGroups(@PathVariable("id") Optional<Long> userid){
-        //getUserGroups
-        //There must be easier way to get this data
-        //To improve !
+    List<Group__c> getGroups(@PathVariable("id") Optional<Long> userid) {
         List<GroupAssigment> groupAssigments = groupAssigmentRepository.findAssigmentUserToGroups(userid.get());
         List<Long> authorGroupIds = groupRepository.findGroupByAuthorId(userid.get());
         Set<Long> groupsId = new HashSet<Long>();
-        for(Long currentId : authorGroupIds){
+        for (Long currentId : authorGroupIds) {
             groupsId.add(currentId);
         }
-        for(GroupAssigment assigment : groupAssigments){
+        for (GroupAssigment assigment : groupAssigments) {
             groupsId.add(assigment.getGroup_Id());
         }
         List<Group__c> groups = groupRepository.findAllById(groupsId);
@@ -66,21 +63,21 @@ public class UserController {
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
     public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken) throws FirebaseAuthException {
-        try{
+        try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
             String uid = decodedToken.getUid();
             System.out.println(uid);
             return new ResponseEntity<>(userRepository.findByPhoneEmail(userRecord.getEmail()), HttpStatus.OK);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-    public ResponseEntity<Object> registerUser(@RequestHeader("ID-TOKEN") String idToken){
-        try{
+    public ResponseEntity<Object> registerUser(@RequestHeader("ID-TOKEN") String idToken) {
+        try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
             User user = new User();
@@ -88,7 +85,7 @@ public class UserController {
             user.setName(userRecord.getDisplayName());
             user.setMobileNumber(userRecord.getPhoneNumber());
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }

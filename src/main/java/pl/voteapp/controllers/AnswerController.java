@@ -62,10 +62,24 @@ public class AnswerController {
     @RequestMapping(value = "/getSurveyAnswers/{survey_Id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Object> getSurveyAnswers(@PathVariable("survey_Id") Long surveyId) {
+        //Preparing data
         List<Answer> answers = answerRepository.findSurveyAnswers(surveyId);
-        //Boolean isSurveyAnonymous = voteRepository.findById(surveyId).get().getPublicVote();
         List<Question> questions = questionRepository.findBySurveyId(surveyId);
         Optional<Vote> vote = voteRepository.findById(surveyId);
+        List<UserSurvey> userSurveys = userSurveyRepository.findVoteUsers(vote.get().getId());
+
+        //Preparing vote turnout
+        Integer answerHasBeenGiven = 0;
+        for (UserSurvey userSurvey : userSurveys) {
+            answerHasBeenGiven += userSurvey.getAnswerHasBeenGiven() ? 1 : 0;
+        }
+
+        //Preparing Question data
+        Map<Long, Question> questionInformationDataMap = new HashMap<Long, Question>();
+        for (Question question : questions) {
+            questionInformationDataMap.put(question.getId(), question);
+        }
+        //Preparing questionAnswers
         Map<Long, List<Answer>> questionMap = new HashMap<Long, List<Answer>>();
         for (Answer answer : answers) {
             if (questionMap.containsKey(answer.getQuestion_id())) {
@@ -76,18 +90,21 @@ public class AnswerController {
                 questionMap.put(answer.getQuestion_id(), questionNewList);
             }
         }
-
+        //Packing into final structure
         List<QuestionAnswersWrapper> container = new ArrayList<QuestionAnswersWrapper>();
-        for(Long questionAnswers : questionMap.keySet()){
-            container.add(new QuestionAnswersWrapper(questionAnswers, "cycki", questionMap.get(questionAnswers)));
+        for (Long questionAnswers : questionMap.keySet()) {
+            Question currentQuestion = questionInformationDataMap.get(questionAnswers);
+            container.add(new QuestionAnswersWrapper(currentQuestion, questionMap.get(questionAnswers)));
         }
-        SurveyResultWrapper surveyContainer = new SurveyResultWrapper();
+        SurveyResultWrapper surveyContainer = new SurveyResultWrapper(vote.get());
         surveyContainer.questions = container;
-        surveyContainer.surveyTitle = vote.get().getVoteTitle();
-        surveyContainer.surveyDescription = vote.get().getSurveyDescription();
-        try{
+        surveyContainer.voteTurnout = (double) Math.round(((double)answerHasBeenGiven/(double)userSurveys.size()) * 100.0);
+        surveyContainer.peopleWhoHasVote = answerHasBeenGiven;
+        surveyContainer.enabledToVote = userSurveys.size();
+
+        try {
             return new ResponseEntity<>(surveyContainer, HttpStatus.OK);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }

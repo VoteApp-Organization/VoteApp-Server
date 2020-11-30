@@ -11,4 +11,7 @@ public interface UserSurveyRepository extends JpaRepository<UserSurvey, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM User_Survey WHERE user_id = :userId")
     public List<UserSurvey> findUserSurveys(@Param("userId") Long userId);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM User_Survey WHERE survey_id = :surveyId")
+    public List<UserSurvey> findVoteUsers(@Param("surveyId") Long surveyId);
 }

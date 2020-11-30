@@ -155,6 +155,8 @@ public class GroupController {
                     ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_INCORRECT_PASSWORD);
                     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
                 }
+                //In this place we assume that this assigment does not exist right now
+                //TODO create special identifier of assigment which will be unique
                 GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(groupAssigment.getGroup_Id(), groupAssigment.getUser_Id()));
                 List<String> transactions = new ArrayList<String>();
                 transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newGroupAssigment.getId());

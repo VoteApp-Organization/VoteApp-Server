@@ -144,9 +144,9 @@ public class GroupController {
     public ResponseEntity<Object> joinGroup(@RequestBody GroupAssigmentWrapper groupAssigment) {
         try {
             Optional<Group__c> group;
-            if(!groupAssigment.getGroup_Id().equals(Utils.EMPTY_STRING)){
-                group = groupRepository.findById(groupAssigment.getGroup_Id());
-            }else{
+            if (!groupAssigment.getGroup_Id().equals(Utils.EMPTY_STRING)) {
+                group = groupRepository.findById(Long.valueOf(groupAssigment.getGroup_Id()));
+            } else {
                 group = groupRepository.findGroupByPassword(groupAssigment.getPassword());
             }
 
@@ -157,7 +157,7 @@ public class GroupController {
                 }
                 //In this place we assume that this assigment does not exist right now
                 //TODO create special identifier of assigment which will be unique
-                GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(groupAssigment.getGroup_Id(), groupAssigment.getUser_Id()));
+                GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(group.get().getId(), groupAssigment.getUser_Id()));
                 List<String> transactions = new ArrayList<String>();
                 transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newGroupAssigment.getId());
                 ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_JOINED, transactions);

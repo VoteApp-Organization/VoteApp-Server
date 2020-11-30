@@ -17,7 +17,7 @@ public interface GroupRepository extends JpaRepository<Group__c, Long> {
     @Query(nativeQuery = true, value = "SELECT Id FROM Group__c WHERE owner_id = :userId")
     public List<Long> findGroupByAuthorId(@Param("userId") Long userId);
 
-    @Query(nativeQuery = true, value = "SELECT Id FROM Group__c WHERE group_password = :password LIMIT 1")
+    @Query(nativeQuery = true, value = "SELECT * FROM Group__c WHERE group_password = :password LIMIT 1")
     public Optional<Group__c> findGroupByPassword(@Param("password") String password);
 
     @Query(nativeQuery = true, value = "SELECT group_password FROM Group__c WHERE is_public = TRUE")

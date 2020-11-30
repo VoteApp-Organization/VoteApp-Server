@@ -1,16 +1,16 @@
 package pl.voteapp.wrappers;
 
 public class GroupAssigmentWrapper {
-    private Long group_Id;
+    private String group_Id;
     private Long vote_Id;
     private Long user_Id;
     private String password;
 
-    public Long getGroup_Id() {
+    public String getGroup_Id() {
         return group_Id;
     }
 
-    public void setGroup_Id(Long group_Id) {
+    public void setGroup_Id(String group_Id) {
         this.group_Id = group_Id;
     }
 

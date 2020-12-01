@@ -124,11 +124,11 @@ public class VoteAppApplication {
                 1, user7, true, 1,12,21,12);
 
         //create groups
-        Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", true, "budget.png", user1);
-        Long group2 = createGroup("College", "Best group ever", true, "budget.png", user1);
-        Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, "budget.png", user1);
-        Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, "budget.png", user2);
-        Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, "budget.png", user8);
+        Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", true, "budget", user1);
+        Long group2 = createGroup("College", "Best group ever", true, "budget", user1);
+        Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, "budget", user1);
+        Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, "budget", user2);
+        Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, "budget", user8);
 
         //create group assignments
         //groups to user

@@ -158,7 +158,30 @@ public class GroupController {
                 //In this place we assume that this assigment does not exist right now
                 //TODO create special identifier of assigment which will be unique
                 GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(group.get().getId(), groupAssigment.getUser_Id()));
+                //create userSurveys
+                List<Vote> groupSurveys = voteRepository.findGroupSurveys(groupAssigment.getVote_Id());
+                List<UserSurvey> existingUserSurvey = userSurveyRepository.findUserSurveys(groupAssigment.getUser_Id());
+                Map<Long, Vote> groupSurveysMap = new HashMap<Long, Vote>();
+                for(Vote vote : groupSurveys){
+                    groupSurveysMap.put(vote.getId(),vote);
+                }
+
+                for(UserSurvey userSurvey : existingUserSurvey){
+                    if(groupSurveysMap.containsKey(userSurvey.getSurvey_id())){
+                        groupSurveysMap.remove(userSurvey.getSurvey_id());
+                    }
+                }
                 List<String> transactions = new ArrayList<String>();
+                if(!groupSurveysMap.isEmpty()){
+                    List<UserSurvey> newUserSurveys = new ArrayList<UserSurvey>();
+                    for(Vote vote : groupSurveysMap.values()){
+                        UserSurvey userSurvey = new UserSurvey(vote.getId(), groupAssigment.getUser_Id(), false);
+                        newUserSurveys.add(userSurvey);
+                    }
+                    userSurveyRepository.saveAll(newUserSurveys);
+                    transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + userSurveyRepository.findAll().size());
+                }
+
                 transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newGroupAssigment.getId());
                 ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_JOINED, transactions);
                 return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());

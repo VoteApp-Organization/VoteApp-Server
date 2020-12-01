@@ -17,6 +17,15 @@ public class UserSurvey {
     public Long user_id;
     public Date voteDate;
 
+    public UserSurvey() {
+    }
+
+    public UserSurvey(Long survey_id, Long user_id, Boolean answerHasBeenGiven) {
+        this.survey_id = survey_id;
+        this.user_id = user_id;
+        this.answerHasBeenGiven = answerHasBeenGiven;
+    }
+
     public Long getId() {
         return id;
     }

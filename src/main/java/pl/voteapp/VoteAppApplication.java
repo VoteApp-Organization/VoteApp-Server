@@ -80,48 +80,48 @@ public class VoteAppApplication {
                 "Voting for the new President of United Spring Technologies!",
                 null,
                 "We are choosing new head of Spring Technology land",
-                3, user1, false, 5, 10, 19, 10);
+                3, user1, false, 5, 10, 19, 10, "politicians");
         Long vote2 = createVote("Vote for good people!",
                 null,
                 "Choose somebody who were helpful for you in last days",
-                4, user1, true, 25,10,28,10);
+                4, user1, true, 25,10,28,10, "party");
         Long vote3 = createVote("Choose the funniest animal",
                 "haslo1234",
                 "We need to make decision, which animal is the funniest one! Through the years we were thinking" +
                         "that the cat rules in the internet, but now hamsters and owls want to change that!",
-                10, user3, true,6,12,24,12);
+                10, user3, true,6,12,24,12, "tools");
         Long vote4 = createVote("Back.Choose your symptoms",
                 "bedzieHashowaneHaslo",
                 "We are conducting research on the XYZ disease, tell us about your symptoms",
-                2, user1, false, 15,10,19,10);
+                2, user1, false, 15,10,19,10, "tools");
         Long vote5 = createVote("What we should by Jarek for his Birthday",
                 "hasloMaslo",
                 "New trousers or Wyborowa 0.7, or 2x Krupnik 0.5",
-                1, user2, false, 23,11,25,11);
+                1, user2, false, 23,11,25,11, "city");
         Long vote6 = createVote("Iphone12 survey",
                 null,
                 "What do you think about Iphone 12, describe you feelings. Rate 0-10",
-                1, user2, true, 27,11,30,11);
+                1, user2, true, 27,11,30,11, "tools");
         Long vote7 = createVote("Who is better CR7, Messi Or Ronaldo?",
                 null,
                 "Who is better?",
-                1, user2, true, 17,10,17,12);
+                1, user2, true, 17,10,17,12, "school");
         Long vote8 = createVote("Rate scenario in new Tarantino movie",
                 null,
                 "Describe your feelings about Tarantino movie's scenario.",
-                1, user2, true, 15,10,15,12);
+                1, user2, true, 15,10,15,12, "city");
         Long vote9 = createVote("Intel or Radeon!",
                 null,
                 "Choose light side of power!",
-                1, user2, true, 1,11,1,12);
+                1, user2, true, 1,11,1,12, "budget");
         Long vote10 = createVote("Fast and furious, whats next?",
                 null,
                 "Help us to make decision about future of legendary film series",
-                8, user2, true, 1,12,21,12);
+                8, user2, true, 1,12,21,12, "tools");
         Long vote11 = createVote("Poland imperial plans?",
                 null,
                 "Help us to make decision about, we like holidays at Lvov",
-                1, user7, true, 1,12,21,12);
+                1, user7, true, 1,12,21,12, "city");
 
         //create groups
         Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", true, "dorm", user1);
@@ -330,7 +330,7 @@ public class VoteAppApplication {
 
     private Long createVote(String name, String password, String description,
                             Integer numberOfQuestion, Long authorId, Boolean isPublic,
-                            Integer startDay, Integer startMonth, Integer endDay, Integer endMonth) {
+                            Integer startDay, Integer startMonth, Integer endDay, Integer endMonth, String pictureName) {
         Vote vote = new Vote();
         vote.setVoteTitle(name);
         vote.setStartDate(Utils.getCurrentDate(2020, startMonth, startDay));

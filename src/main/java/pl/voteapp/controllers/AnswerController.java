@@ -40,7 +40,7 @@ public class AnswerController {
 
     @RequestMapping(value = "/saveAnswers", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<Object> saveUserAnswers(@RequestHeader("ID-TOKEN") String idToken, @RequestBody AnswersWrapper answersWrapper) {
+    public ResponseEntity<Object> saveUserAnswers(@RequestBody AnswersWrapper answersWrapper) {
         List<String> transactions = new ArrayList<String>();
         UserSurvey survey = userSurveyRepository.findUsersVote(answersWrapper.answers.get(0).vote_id, answersWrapper.answers.get(0).user_id);
         survey.answerHasBeenGiven = true;

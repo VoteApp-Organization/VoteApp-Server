@@ -26,6 +26,7 @@ public class Vote {
     private Boolean isMandatory;
     private String votePassword;
     private Integer numberOfQuestions;
+    private Integer picture_name;
 
     public Vote() {
     }
@@ -124,6 +125,14 @@ public class Vote {
 
     public void setNumberOfQuestions(Integer numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
+    }
+
+    public Integer getPicture_name() {
+        return picture_name;
+    }
+
+    public void setPicture_name(Integer picture_name) {
+        this.picture_name = picture_name;
     }
 
     @Override

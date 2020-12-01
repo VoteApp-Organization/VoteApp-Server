@@ -40,14 +40,14 @@ public class AnswerController {
 
     @RequestMapping(value = "/saveAnswers", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<Object> saveUserAnswers(@RequestBody AnswersWrapper answersWrapper) {
+    public ResponseEntity<Object> saveUserAnswers(@RequestHeader("ID-TOKEN") String idToken, @RequestBody AnswersWrapper answersWrapper) {
         List<String> transactions = new ArrayList<String>();
-        Optional<UserSurvey> survey = userSurveyRepository.findById(answersWrapper.answers.get(0).vote_id);
-        survey.get().answerHasBeenGiven = true;
-        survey.get().voteDate = Utils.getCurrentDate();
-        userSurveyRepository.save(survey.get());
+        UserSurvey survey = userSurveyRepository.findUsersVote(answersWrapper.answers.get(0).vote_id, answersWrapper.answers.get(0).user_id);
+        survey.answerHasBeenGiven = true;
+        survey.voteDate = Utils.getCurrentDate();
+        userSurveyRepository.save(survey);
         answerRepository.saveAll(answersWrapper.answers);
-        transactions.add(ConstVariables.OT_ANSWER + " " + ConstVariables.UPDATE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + survey.get().getId());
+        transactions.add(ConstVariables.OT_ANSWER + " " + ConstVariables.UPDATE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + survey.getId());
         transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + answersWrapper.answers.size());
 
         try{

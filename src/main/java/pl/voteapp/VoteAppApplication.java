@@ -342,6 +342,7 @@ public class VoteAppApplication {
         vote.setSurveyDescription(description);
         vote.setVotePassword(password);
         vote.setNumberOfQuestions(numberOfQuestion);
+        vote.setPicture_name(pictureName);
         voteRepository.save(vote);
         return vote.getId();
     }

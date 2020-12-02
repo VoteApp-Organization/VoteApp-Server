@@ -19,6 +19,7 @@ public class QuestionWrapper {
     public Boolean answerHasBeenGiven;
     public Date voteDate;
     public Integer numberOfQuestions;
+    public String surveyPicture;
 
     public QuestionWrapper(Vote vote, UserSurvey userQuestion) {
         this.vote_Id = vote.getId();
@@ -30,6 +31,7 @@ public class QuestionWrapper {
         this.isPublicVote = vote.getPublicVote();
         this.isMandatory = vote.getMandatory();
         this.numberOfQuestions = vote.getNumberOfQuestions();
+        this.surveyPicture = vote.getPicture_name();
         this.answerHasBeenGiven = userQuestion.getAnswerHasBeenGiven();
         this.voteDate = userQuestion.getVoteDate();
     }
@@ -114,4 +116,19 @@ public class QuestionWrapper {
         this.answerHasBeenGiven = answerHasBeenGiven;
     }
 
+    public Integer getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
+    public void setNumberOfQuestions(Integer numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
+    }
+
+    public String getSurveyPicture() {
+        return surveyPicture;
+    }
+
+    public void setSurveyPicture(String surveyPicture) {
+        this.surveyPicture = surveyPicture;
+    }
 }

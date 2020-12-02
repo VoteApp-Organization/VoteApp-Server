@@ -3,7 +3,6 @@ package pl.voteapp.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import pl.voteapp.model.UserSurvey;
 import pl.voteapp.model.Vote;
 
 import java.util.List;

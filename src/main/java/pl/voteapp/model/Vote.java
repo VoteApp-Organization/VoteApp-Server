@@ -1,12 +1,14 @@
 package pl.voteapp.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import pl.voteapp.wrappers.SurveyWrapper;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Vote {
@@ -29,6 +31,18 @@ public class Vote {
     private String picture_name;
 
     public Vote() {
+    }
+
+    public Vote(SurveyWrapper surveyWrapper){
+        this.voteTitle = surveyWrapper.voteTitle;
+        this.author_id = surveyWrapper.author_Id;
+        this.isMandatory = surveyWrapper.isMandatory;
+        this.isPublicVote = surveyWrapper.isPublicVote;
+        this.numberOfQuestions = surveyWrapper.numberOfQuestion;
+        this.startDate = surveyWrapper.startDate;
+        //this.endDate = surveyWrapper.endDate;
+        this.picture_name = surveyWrapper.surveyPicture;
+        this.voteTitle = surveyWrapper.voteTitle;
     }
 
     public Long getId() {

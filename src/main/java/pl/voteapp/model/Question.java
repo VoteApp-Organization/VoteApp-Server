@@ -1,5 +1,8 @@
 package pl.voteapp.model;
 
+import pl.voteapp.wrappers.SurveyQuestion;
+import pl.voteapp.wrappers.SurveyWrapper;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,6 +20,17 @@ public class Question {
     public String questionType;
     @ElementCollection
     public List<String> picklistValues;
+
+    public Question() {
+    }
+
+    public Question(SurveyQuestion surveyQuestion) {
+        this.questionContent = surveyQuestion.questionContent;
+        this.multipleChoice = surveyQuestion.multipleChoice;
+        this.mandatoryQuestion = surveyQuestion.mandatoryQuestion;
+        this.maximumCapacityOfAnswer = surveyQuestion.maximumCapacityOfAnswer;
+        this.questionType = surveyQuestion.questionType;
+    }
 
     public Long getId() {
         return id;

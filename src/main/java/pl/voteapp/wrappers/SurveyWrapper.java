@@ -5,17 +5,15 @@ import java.util.List;
 
 //Wrapper used during creating survey
 public class SurveyWrapper {
-    public Long author_Id;
+    public Long author_id;
+    public Long group_id;
     public Boolean isMandatory;
     public Boolean isPublicVote;
     public Integer numberOfQuestion;
     public Date startDate;
-    // should be optionaly
-    // public Date endDate;
+    public Date endDate;
     public String surveyPicture;
+    public String surveyDescription;
     public String voteTitle;
     public List<SurveyQuestion> questions;
-
-
-
 }

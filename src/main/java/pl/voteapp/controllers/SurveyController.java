@@ -1,9 +1,5 @@
 package pl.voteapp.controllers;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.auth.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +10,7 @@ import pl.voteapp.exceptions.ApiError;
 import pl.voteapp.exceptions.ApiSuccess;
 import pl.voteapp.model.GroupAssigment;
 import pl.voteapp.model.Question;
+import pl.voteapp.model.UserSurvey;
 import pl.voteapp.model.Vote;
 import pl.voteapp.repository.GroupAssigmentRepository;
 import pl.voteapp.repository.QuestionRepository;
@@ -24,6 +21,7 @@ import pl.voteapp.wrappers.SurveyWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -52,23 +50,31 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/createNewSurvey", method = RequestMethod.POST)
-    //public ResponseEntity<Object> createSurvey(@RequestHeader("ID-TOKEN") String idToken, @RequestHeader("group_Id") Long group_Id, @RequestBody Vote vote) {
-    public ResponseEntity<Object> createSurvey(@RequestBody SurveyWrapper surveyWrapper) {
+   public ResponseEntity<Object> createSurvey(@RequestBody SurveyWrapper surveyWrapper) {
         try{
-            //FirebaseAuth.getInstance().verifyIdToken(idToken);
             Vote newVote = voteRepository.save(new Vote(surveyWrapper));
             List<Question> surveyQuestions = new ArrayList<Question>();
             for (SurveyQuestion question : surveyWrapper.questions) {
                 surveyQuestions.add(new Question(question));
             }
-//            GroupAssigment assigment = new GroupAssigment();
-//            assigment.setGroup_Id(group_Id);
-//            assigment.setVote_Id(newVote.getId());
-//            GroupAssigment groupAssigment = assigmentRepository.save(assigment);
+
+            GroupAssigment assigment = new GroupAssigment(newVote.getId(), surveyWrapper.group_id, null);
+            List<GroupAssigment> userAssigmentsToGroup = assigmentRepository.findAllUsersOnGroup(surveyWrapper.group_id);
+
+            List<UserSurvey> groupUserSurveys = new ArrayList<UserSurvey>();
+            for(GroupAssigment userAssigment : userAssigmentsToGroup){
+                groupUserSurveys.add(new UserSurvey(newVote.getId(), userAssigment.getUser_Id(), false));
+            }
+
+            questionRepository.saveAll(surveyQuestions);
+            GroupAssigment groupAssigment = assigmentRepository.save(assigment);
+            userSurveyRepository.saveAll(groupUserSurveys);
 
             List<String> transactions = new ArrayList<String>();
             transactions.add(ConstVariables.OT_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + newVote.getId());
-            //transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + groupAssigment.getId());
+            transactions.add(ConstVariables.OT_GROUP_ASSIGNMENT + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + groupAssigment.getId());
+            transactions.add(ConstVariables.OT_QUESTION + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + surveyQuestions.size());
+            transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + groupUserSurveys.size());
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_LEFT_SUCCESSFULLY, transactions);
             return new ResponseEntity<>(apiSuccess, HttpStatus.OK);
         } catch(Exception ex){

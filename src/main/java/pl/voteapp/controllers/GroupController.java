@@ -157,7 +157,7 @@ public class GroupController {
                 }
                 //In this place we assume that this assigment does not exist right now
                 //TODO create special identifier of assigment which will be unique
-                GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(group.get().getId(), groupAssigment.getUser_Id()));
+                GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(null, group.get().getId(), groupAssigment.getUser_Id()));
                 //create userSurveys
                 List<Vote> groupSurveys = voteRepository.findGroupSurveys(groupAssigment.getVote_Id());
                 List<UserSurvey> existingUserSurvey = userSurveyRepository.findUserSurveys(groupAssigment.getUser_Id());

@@ -20,4 +20,7 @@ public interface GroupAssigmentRepository extends JpaRepository<GroupAssigment, 
 
     @Query(nativeQuery = true, value = "SELECT * FROM Group_Assigment WHERE group_id = :groupId")
     public List<GroupAssigment> findAllAssignmentsToGroup(@Param("groupId") Long groupId);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM Group_Assigment WHERE group_id = :groupId AND user_id IS NOT NULL")
+    public List<GroupAssigment> findAllUsersOnGroup(@Param("groupId") Long groupId);
 }

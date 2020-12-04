@@ -35,13 +35,14 @@ public class Vote {
 
     public Vote(SurveyWrapper surveyWrapper){
         this.voteTitle = surveyWrapper.voteTitle;
-        this.author_id = surveyWrapper.author_Id;
+        this.author_id = surveyWrapper.author_id;
         this.isMandatory = surveyWrapper.isMandatory;
         this.isPublicVote = surveyWrapper.isPublicVote;
         this.numberOfQuestions = surveyWrapper.numberOfQuestion;
         this.startDate = surveyWrapper.startDate;
-        //this.endDate = surveyWrapper.endDate;
+        this.endDate = surveyWrapper.endDate;
         this.picture_name = surveyWrapper.surveyPicture;
+        this.surveyDescription = surveyWrapper.surveyDescription;
         this.voteTitle = surveyWrapper.voteTitle;
     }
 

@@ -31,6 +31,7 @@ public class ConstVariables {
     public static final String OT_ANSWER = "Answer";
     public static final String OT_GROUP = "Group";
     public static final String OT_GROUP_ASSIGNMENT = "GroupAssignment";
+    public static final String OT_QUESTION = "Question";
     public static final String OT_SURVEY = "Survey";
     public static final String OT_USER_SURVEY = "UserSurvey";
 }

@@ -78,7 +78,7 @@ public class SurveyController {
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_LEFT_SUCCESSFULLY, transactions);
             return new ResponseEntity<>(apiSuccess, HttpStatus.OK);
         } catch(Exception ex){
-            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_FAILED_CREATING_SURVEY);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }

@@ -108,6 +108,24 @@ public class GroupController {
         }
     }
 
+    @RequestMapping(path = {"exploreGroupsByName/{user_Id}/{name}", "exploreGroupsByName/{user_Id}"}, produces = "application/json", method= RequestMethod.GET)
+    public ResponseEntity<Object> exploreGroupsByName(@PathVariable("user_Id") Long userId, @PathVariable("name") Optional<String> searchName) {
+        try{
+            List<GroupAssigment> userGroups = groupAssigmentRepository.findAssigmentUserToGroups(userId);
+            Set<Long> groupIds = new HashSet<Long>();
+            for(GroupAssigment group : userGroups){
+                groupIds.add(group.getGroup_Id());
+            }
+
+            List<Group__c> groups = groupRepository.exploreGroupByName(searchName.isPresent() ? searchName.get() : "", groupIds);
+            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
+            return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
+        } catch(Exception ex){
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_EMPTY_LIST_TO_RETURN);
+            return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        }
+    }
+
     @GetMapping(path = {"getGroupSurveys/{group_Id}/{user_Id}"}, produces = "application/json")
     public ResponseEntity<Object> getSurveys(@PathVariable("user_Id") Long userId, @PathVariable("group_Id") Long groupId) {
         List<UserSurvey> userSurveys = userSurveyRepository.findUserSurveys(userId);

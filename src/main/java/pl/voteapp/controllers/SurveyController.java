@@ -55,7 +55,7 @@ public class SurveyController {
             Vote newVote = voteRepository.save(new Vote(surveyWrapper));
             List<Question> surveyQuestions = new ArrayList<Question>();
             for (SurveyQuestion question : surveyWrapper.questions) {
-                surveyQuestions.add(new Question(question));
+                surveyQuestions.add(new Question(question, newVote.getId()));
             }
 
             GroupAssigment assigment = new GroupAssigment(newVote.getId(), surveyWrapper.group_id, null);

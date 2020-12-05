@@ -24,12 +24,13 @@ public class Question {
     public Question() {
     }
 
-    public Question(SurveyQuestion surveyQuestion) {
+    public Question(SurveyQuestion surveyQuestion, Long surveyId) {
         this.questionContent = surveyQuestion.questionContent;
         this.multipleChoice = surveyQuestion.multipleChoice;
         this.mandatoryQuestion = surveyQuestion.mandatoryQuestion;
         this.maximumCapacityOfAnswer = surveyQuestion.maximumCapacityOfAnswer;
         this.questionType = surveyQuestion.questionType;
+        this.vote_id = surveyId;
     }
 
     public Long getId() {

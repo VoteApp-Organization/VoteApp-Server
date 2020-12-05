@@ -8,8 +8,9 @@ public class SurveyWrapper {
     public Long author_id;
     public Long group_id;
     public Boolean isMandatory;
+    public Boolean isAnonymousVote;
     public Boolean isPublicVote;
-    public Integer numberOfQuestion;
+    public Integer numberOfQuestions;
     public Date startDate;
     public Date endDate;
     public String surveyPicture;

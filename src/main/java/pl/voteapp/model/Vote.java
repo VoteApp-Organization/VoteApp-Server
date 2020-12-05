@@ -38,7 +38,8 @@ public class Vote {
         this.author_id = surveyWrapper.author_id;
         this.isMandatory = surveyWrapper.isMandatory;
         this.isPublicVote = surveyWrapper.isPublicVote;
-        this.numberOfQuestions = surveyWrapper.numberOfQuestion;
+        this.numberOfQuestions = surveyWrapper.numberOfQuestions;
+        this.isAnonymousVote = surveyWrapper.isAnonymousVote;
         this.startDate = surveyWrapper.startDate;
         this.endDate = surveyWrapper.endDate;
         this.picture_name = surveyWrapper.surveyPicture;

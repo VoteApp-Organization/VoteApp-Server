@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.voteapp.ConstVariables;
 import pl.voteapp.wrappers.GroupAssigmentWrapper;
+import pl.voteapp.wrappers.GroupsToExploreWrapper;
 import pl.voteapp.wrappers.QuestionWrapper;
 import pl.voteapp.Utils;
 import pl.voteapp.exceptions.ApiError;
@@ -111,15 +112,42 @@ public class GroupController {
     @RequestMapping(path = {"exploreGroupsByName/{user_Id}/{name}", "exploreGroupsByName/{user_Id}"}, produces = "application/json", method= RequestMethod.GET)
     public ResponseEntity<Object> exploreGroupsByName(@PathVariable("user_Id") Long userId, @PathVariable("name") Optional<String> searchName) {
         try{
-            List<GroupAssigment> userGroups = groupAssigmentRepository.findAssigmentUserToGroups(userId);
-            Set<Long> groupIds = new HashSet<Long>();
-            for(GroupAssigment group : userGroups){
-                groupIds.add(group.getGroup_Id());
+            List<GroupAssigment> groupAssigments = groupAssigmentRepository.findAssigmentUserToGroups(userId);
+            List<Long> authorGroupIds = groupRepository.findGroupByAuthorId(userId);
+            Set<Long> groupsId = new HashSet<Long>();
+            //TODO
+            //doubled part of Code with UserController.getGroups
+            for (Long currentId : authorGroupIds) {
+                groupsId.add(currentId);
+            }
+            for (GroupAssigment assigment : groupAssigments) {
+                groupsId.add(assigment.getGroup_Id());
             }
 
-            List<Group__c> groups = groupRepository.exploreGroupByName(searchName.isPresent() ? searchName.get() : "", groupIds, userId);
+            List<Group__c> groups = groupRepository.exploreGroupByName(searchName.isPresent() ? searchName.get() : "", groupsId, userId);
+            Set<Long> groupIds = new HashSet<Long>();
+            for(Group__c group : groups){
+                groupIds.add(group.getId());
+            }
+
+            //getGroupInformation
+            List<ExploredGroupStatistics> statistics = groupAssigmentRepository.countNumberOfUser(groupIds);
+            Map<Long, ExploredGroupStatistics> statMap = new HashMap<Long, ExploredGroupStatistics>();
+            for(ExploredGroupStatistics wrapperGroup : statistics){
+                statMap.put(wrapperGroup.getGroupId(), wrapperGroup);
+            }
+
+            List<GroupsToExploreWrapper> groupsWithStatistics = new ArrayList<GroupsToExploreWrapper>();
+            for(Group__c group : groups){
+                groupsWithStatistics.add(new GroupsToExploreWrapper(
+                        group,
+                        statMap.containsKey(group.getId()) ? statMap.get(group.getId()).getNumberOfUsersInGroup() + 1 : 1,
+                        statMap.containsKey(group.getId()) ? statMap.get(group.getId()).getNumberOfSurveysInGroup() : 0)
+                );
+            }
+
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
-            return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
+            return new ResponseEntity<Object>(groupsWithStatistics, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_EMPTY_LIST_TO_RETURN);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -130,13 +158,11 @@ public class GroupController {
     public ResponseEntity<Object> getSurveys(@PathVariable("user_Id") Long userId, @PathVariable("group_Id") Long groupId) {
         List<UserSurvey> userSurveys = userSurveyRepository.findUserSurveys(userId);
         List<GroupAssigment> surveysAssigments = groupAssigmentRepository.findAssigmentGroupToVote(groupId);
-        List<Long> groupsWhereIAmAuthor = groupRepository.findGroupByAuthorId(userId);
         //getting user assigments to votes by group
         Set<Long> voteIds = new HashSet<Long>();
         for (GroupAssigment assigment : surveysAssigments) {
             voteIds.add(assigment.getVote_Id());
         }
-        voteIds.addAll(groupsWhereIAmAuthor);
         List<Vote> surveys = voteRepository.findAllById(voteIds);
 
         //preparing wrapper
@@ -213,5 +239,11 @@ public class GroupController {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
+    }
+
+    public interface ExploredGroupStatistics{
+        public Long getGroupId();
+        public Long getNumberOfUsersInGroup();
+        public Long getNumberOfSurveysInGroup();
     }
 }

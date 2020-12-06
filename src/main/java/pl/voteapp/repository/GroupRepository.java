@@ -14,7 +14,7 @@ public interface GroupRepository extends JpaRepository<Group__c, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM Group__c WHERE is_public = true AND LOWER(NAME) LIKE LOWER(CONCAT('%',:name,'%'))")
     public List<Group__c> findGroupByName(@Param("name") String name);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Group__c WHERE is_public = true AND LOWER(NAME) LIKE LOWER(CONCAT('%',:name,'%')) AND owner_id != :userId NOT IN :idList")
+    @Query(nativeQuery = true, value = "SELECT * FROM Group__c WHERE is_public = true AND LOWER(NAME) LIKE LOWER(CONCAT('%',:name,'%')) AND owner_id != :userId AND Id NOT IN :idList")
     public List<Group__c> exploreGroupByName(@Param("name") String name, @Param("idList") Set<Long> idList, @Param("userId") Long userId);
 
     @Query(nativeQuery = true, value = "SELECT Id FROM Group__c WHERE owner_id = :userId")

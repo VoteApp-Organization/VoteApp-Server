@@ -64,6 +64,9 @@ public class SurveyController {
             for(GroupAssigment userAssigment : userAssigmentsToGroup){
                 groupUserSurveys.add(new UserSurvey(newVote.getId(), userAssigment.getUser_Id(), false));
             }
+            if (surveyWrapper.authorIsVoting) {
+                groupUserSurveys.add(new UserSurvey(newVote.getId(), surveyWrapper.author_id, false));
+            }
 
             questionRepository.saveAll(surveyQuestions);
             GroupAssigment groupAssigment = assigmentRepository.save(assigment);

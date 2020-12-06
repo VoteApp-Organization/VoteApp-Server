@@ -74,6 +74,8 @@ public class VoteAppApplication {
         Long user6 = createUser("Maja", "Wiesławska","5251349", "Client");
         Long user7 = createUser("Andrzej", "Szyszka","453098342", "Priest");
         Long user8 = createUser("Rafał", "Trzaskowski","883098342", "Administrator");
+        Long user9 = createUser("Robert", "Dębowski","883098342", "Client");
+        Long user10 = createUser("Maria", "Lapacinska","883098342", "Client");
 
         //create votes
         Long vote1 = createVote(
@@ -122,6 +124,26 @@ public class VoteAppApplication {
                 null,
                 "Help us to make decision about, we like holidays at Lvov",
                 1, user7, true, 1,12,21,12, "city");
+        Long vote12 = createVote("Should we build new zoo??",
+                null,
+                "Help us to make decision about new investment",
+                1, user8, true, 1,12,21,12, "city");
+        Long vote13 = createVote("Do you know Elon?",
+                null,
+                "We need to know",
+                1, user1, true, 1,12,21,12, "tools");
+        Long vote14 = createVote("Next new furniture?",
+                null,
+                "It is your decision",
+                1, user1, true, 1,12,21,12, "budget");
+        Long vote15 = createVote("Choose meal for us?",
+                null,
+                "Help us to make decision!",
+                1, user1, true, 1,12,21,12, "city");
+        Long vote16 = createVote("Grade your mate! Eric Spolestra",
+                null,
+                "We have to sum up his year with us",
+                3, user1, true, 1,12,21,12, "school");
 
         //create groups
         Long group1 = createGroup("Dormitory", "Group of residents of the dormitory", true, "dorm", user1);
@@ -129,7 +151,11 @@ public class VoteAppApplication {
         Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, "politicians", user1);
         Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, "budget", user2);
         Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, "city", user8);
-        Long group6 = createGroup("Lodz", "Hawajska dla wszystkich", true, "city", user8);
+        Long group6 = createGroup("Lodz", "Best city for best people", true, "politicians", user1);
+        Long group7 = createGroup("TESLA", "Survey group for tesla people", true, "party", user1);
+        Long group8 = createGroup("Ikea group", "Lets choose new products for us", true, "budget", user1);
+        Long group9 = createGroup("Dinner chooser", "Choose meal of the day for a next day!", true, "party", user8);
+        Long group10 = createGroup("Evaluator", "Grade your mates!", true, "dorm", user1);
 
         //create group assignments
         //groups to user
@@ -188,6 +214,12 @@ public class VoteAppApplication {
         createGroupAssigment(group4, null, vote4);
         createGroupAssigment(group4, null, vote5);
 
+        createGroupAssigment(group6, null, vote12);
+        createGroupAssigment(group7, null, vote13);
+        createGroupAssigment(group8, null, vote14);
+        createGroupAssigment(group9, null, vote15);
+        createGroupAssigment(group10, null, vote16);
+
 
         //create questions
         //question of vote1
@@ -225,8 +257,20 @@ public class VoteAppApplication {
         Long question24 = createQuestion("One cannot live while the other is alive", vote9, "String", null);
         //question of vote10
         Long question25 = createQuestion("What do you think, what should be the next step for the family", vote10, "String", null);
-        //question of vote10
+        //question of vote11
         Long question26 = createQuestion("Should we invade Ukraine?", vote11, "Checkbox", null);
+        //question of vote12
+        Long question27 = createQuestion("Do we need new zoo?", vote12, "Picklist", Arrays.asList("yes", "no", "i dont know"));
+        // question of vote13
+        Long question28 = createQuestion("How do you grade Elon as the boss?", vote13, "Picklist", Arrays.asList("1", "2", "3","4","5"));
+        // question of vote14
+        Long question29 = createQuestion("How should we name new furniture?", vote14, "Picklist", Arrays.asList("Polasdasda", "Skawrea"));
+        // question of vote15
+        Long question30 = createQuestion("What should we prepare for tomorrow?", vote15, "Picklist", Arrays.asList("Scrambled eggs", "Pizza"));
+        // question of vote16
+        Long question31 = createQuestion("How do you grade Eric Java skills?", vote16, "Picklist", Arrays.asList("1", "2","3","4","5"));
+        Long question32 = createQuestion("How do you grade Eric frienship at work", vote16, "Picklist", Arrays.asList("1", "2","3","4","5"));
+        Long question33 = createQuestion("Would you like to work with Eric?", vote16, "Picklist", Arrays.asList("yes","no"));
 
 
         //users to vote. it is group * number of group members
@@ -329,6 +373,37 @@ public class VoteAppApplication {
         createAnswer(vote2, question7, null,Arrays.asList("Jumanji"));
         createAnswer(vote2, question7, null,Arrays.asList("Pulp Fiction"));
         createAnswer(vote2, question7, null,Arrays.asList("Tabaluga"));
+
+
+        createAnswer(vote16, question31, null,Arrays.asList("1"));
+        createAnswer(vote16, question31, null,Arrays.asList("3"));
+        createAnswer(vote16, question31, null,Arrays.asList("3"));
+        createAnswer(vote16, question31, null,Arrays.asList("3"));
+        createAnswer(vote16, question31, null,Arrays.asList("2"));
+        createAnswer(vote16, question31, null,Arrays.asList("2"));
+        createAnswer(vote16, question31, null,Arrays.asList("1"));
+        createAnswer(vote16, question31, null,Arrays.asList("5"));
+        createAnswer(vote16, question31, null,Arrays.asList("4"));
+
+        createAnswer(vote16, question32, null,Arrays.asList("2"));
+        createAnswer(vote16, question32, null,Arrays.asList("2"));
+        createAnswer(vote16, question32, null,Arrays.asList("3"));
+        createAnswer(vote16, question32, null,Arrays.asList("3"));
+        createAnswer(vote16, question32, null,Arrays.asList("2"));
+        createAnswer(vote16, question32, null,Arrays.asList("3"));
+        createAnswer(vote16, question32, null,Arrays.asList("4"));
+        createAnswer(vote16, question32, null,Arrays.asList("4"));
+        createAnswer(vote16, question32, null,Arrays.asList("4"));
+
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
+        createAnswer(vote16, question33, null,Arrays.asList("no"));
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
+        createAnswer(vote16, question33, null,Arrays.asList("no"));
+        createAnswer(vote16, question33, null,Arrays.asList("no"));
+        createAnswer(vote16, question33, null,Arrays.asList("yes"));
     }
 
     private Long createVote(String name, String password, String description,

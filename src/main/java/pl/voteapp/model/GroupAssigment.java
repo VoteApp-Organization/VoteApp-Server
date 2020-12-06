@@ -19,9 +19,9 @@ public class GroupAssigment {
     }
 
     public GroupAssigment(Long vote_Id, Long group_Id, Long user_Id) {
+        this.vote_Id = vote_Id;
         this.group_Id = group_Id;
         this.user_Id = user_Id;
-        this.vote_Id = vote_Id;
     }
 
     public Long getId() {

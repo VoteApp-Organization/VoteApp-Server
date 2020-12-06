@@ -156,6 +156,7 @@ public class GroupController {
 
     @GetMapping(path = {"getGroupSurveys/{group_Id}/{user_Id}"}, produces = "application/json")
     public ResponseEntity<Object> getSurveys(@PathVariable("user_Id") Long userId, @PathVariable("group_Id") Long groupId) {
+        //List<Long> authorGroups = groupRepository.findGroupByAuthorId(userId);
         List<UserSurvey> userSurveys = userSurveyRepository.findUserSurveys(userId);
         List<GroupAssigment> surveysAssigments = groupAssigmentRepository.findAssigmentGroupToVote(groupId);
         //getting user assigments to votes by group
@@ -163,8 +164,9 @@ public class GroupController {
         for (GroupAssigment assigment : surveysAssigments) {
             voteIds.add(assigment.getVote_Id());
         }
+        //voteIds.addAll(authorGroups);
         List<Vote> surveys = voteRepository.findAllById(voteIds);
-
+        List<Vote> authorSurveys = voteRepository.findRestAuthorGroups(userId, voteIds);
         //preparing wrapper
         List<QuestionWrapper> wrappers = new ArrayList<QuestionWrapper>();
         Map<Long, UserSurvey> userQuestionsMap = new HashMap<Long, UserSurvey>();
@@ -174,7 +176,12 @@ public class GroupController {
 
         for (Vote survey : surveys) {
             UserSurvey userQuestion = userQuestionsMap.get(survey.getId());
+            //Question => Survey Wrapper
             wrappers.add(new QuestionWrapper(survey, userQuestion));
+        }
+
+        for(Vote survey : authorSurveys){
+            wrappers.add(new QuestionWrapper(survey));
         }
 
         if (!wrappers.isEmpty()) {

@@ -36,6 +36,19 @@ public class QuestionWrapper {
         this.voteDate = userQuestion.getVoteDate();
     }
 
+    public QuestionWrapper(Vote vote) {
+        this.vote_Id = vote.getId();
+        this.voteTitle = vote.getVoteTitle();
+        this.createdDate = vote.getCreatedDate();
+        this.author_id = vote.getAuthor_id();
+        this.startDate = vote.getStartDate();
+        this.endDate = vote.getEndDate();
+        this.isPublicVote = vote.getPublicVote();
+        this.isMandatory = vote.getMandatory();
+        this.numberOfQuestions = vote.getNumberOfQuestions();
+        this.surveyPicture = vote.getPicture_name();
+    }
+
     public String getVoteTitle() {
         return voteTitle;
     }

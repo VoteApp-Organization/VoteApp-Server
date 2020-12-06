@@ -21,7 +21,6 @@ import pl.voteapp.wrappers.SurveyWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController

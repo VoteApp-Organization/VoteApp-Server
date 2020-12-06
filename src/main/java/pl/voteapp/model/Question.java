@@ -30,6 +30,7 @@ public class Question {
         this.mandatoryQuestion = surveyQuestion.mandatoryQuestion;
         this.maximumCapacityOfAnswer = surveyQuestion.maximumCapacityOfAnswer;
         this.questionType = surveyQuestion.questionType;
+        this.picklistValues = surveyQuestion.picklistValues;
         this.vote_id = surveyId;
     }
 

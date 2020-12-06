@@ -90,12 +90,34 @@ public class AnswerController {
                 questionMap.put(answer.getQuestion_id(), questionNewList);
             }
         }
+
+        //Special map, which recognizes type, and basing on that is preparing map with number of appearances of every answer
+        Map<Long, Map<String, Integer>> picklistAnswerMap = new HashMap<Long, Map<String, Integer>>();
+        for (Long questionAnswers : questionMap.keySet()) {
+            Question currentQuestion = questionInformationDataMap.get(questionAnswers);
+            if(currentQuestion.questionType == ConstVariables.QUESTION_TYPE_PICKLIST || currentQuestion.questionType == ConstVariables.QUESTION_TYPE_CHECKBOX){
+                picklistAnswerMap.put(currentQuestion.getId(), new HashMap<String, Integer>());
+            }
+        }
+        for (Answer answer : answers) {
+            if (picklistAnswerMap.containsKey(answer.getQuestion_id())) {
+                Map<String, Integer> picklistMap = picklistAnswerMap.get(answer.getQuestion_id());
+                for(String newValue : answer.getAnswerContent()){
+                    picklistMap.put(newValue, picklistMap.containsKey(newValue) ? picklistMap.get(newValue) + 1 : 1);
+                }
+                picklistAnswerMap.put(answer.getQuestion_id(), picklistMap);
+            }
+        }
+
         //Packing into final structure
         List<QuestionAnswersWrapper> container = new ArrayList<QuestionAnswersWrapper>();
         for (Long questionAnswers : questionMap.keySet()) {
             Question currentQuestion = questionInformationDataMap.get(questionAnswers);
-            container.add(new QuestionAnswersWrapper(currentQuestion, questionMap.get(questionAnswers)));
+            Map<String, Integer> picklistValueMap = picklistAnswerMap.get(questionAnswers);
+            container.add(new QuestionAnswersWrapper(currentQuestion, questionMap.get(questionAnswers), picklistValueMap));
         }
+
+
         SurveyResultWrapper surveyContainer = new SurveyResultWrapper(vote.get());
         surveyContainer.questions = container;
         surveyContainer.voteTurnout = (double) Math.round(((double)answerHasBeenGiven/(double)userSurveys.size()) * 100.0);

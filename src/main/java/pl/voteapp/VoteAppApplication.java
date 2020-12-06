@@ -129,6 +129,7 @@ public class VoteAppApplication {
         Long group3 = createGroup("Poland Country", "Group of all citizens of Poland!", true, "politicians", user1);
         Long group4 = createGroup("The Majcher family", "Group of all Majachers in Skierniewice", false, "budget", user2);
         Long group5 = createGroup("Warsaw", "Every citizen has a vote!", true, "city", user8);
+        Long group6 = createGroup("Lodz", "Hawajska dla wszystkich", true, "city", user8);
 
         //create group assignments
         //groups to user

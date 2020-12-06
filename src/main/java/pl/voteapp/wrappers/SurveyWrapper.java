@@ -16,5 +16,6 @@ public class SurveyWrapper {
     public String surveyPicture;
     public String surveyDescription;
     public String voteTitle;
+    public Boolean authorIsVoting;
     public List<SurveyQuestion> questions;
 }

@@ -29,6 +29,7 @@ public class Vote {
     private String votePassword;
     private Integer numberOfQuestions;
     private String picture_name;
+    private Boolean authorIsVoting;
 
     public Vote() {
     }
@@ -44,7 +45,7 @@ public class Vote {
         this.endDate = surveyWrapper.endDate;
         this.picture_name = surveyWrapper.surveyPicture;
         this.surveyDescription = surveyWrapper.surveyDescription;
-        this.voteTitle = surveyWrapper.voteTitle;
+        this.authorIsVoting = surveyWrapper.authorIsVoting;
     }
 
     public Long getId() {
@@ -149,6 +150,14 @@ public class Vote {
 
     public void setPicture_name(String picture_name) {
         this.picture_name = picture_name;
+    }
+
+    public Boolean getAuthorIsVoting() {
+        return authorIsVoting;
+    }
+
+    public void setAuthorIsVoting(Boolean authorIsVoting) {
+        this.authorIsVoting = authorIsVoting;
     }
 
     @Override

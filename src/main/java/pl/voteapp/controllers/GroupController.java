@@ -130,11 +130,13 @@ public class GroupController {
     public ResponseEntity<Object> getSurveys(@PathVariable("user_Id") Long userId, @PathVariable("group_Id") Long groupId) {
         List<UserSurvey> userSurveys = userSurveyRepository.findUserSurveys(userId);
         List<GroupAssigment> surveysAssigments = groupAssigmentRepository.findAssigmentGroupToVote(groupId);
+        List<Long> groupsWhereIAmAuthor = groupRepository.findGroupByAuthorId(userId);
         //getting user assigments to votes by group
         Set<Long> voteIds = new HashSet<Long>();
         for (GroupAssigment assigment : surveysAssigments) {
             voteIds.add(assigment.getVote_Id());
         }
+        voteIds.addAll(groupsWhereIAmAuthor);
         List<Vote> surveys = voteRepository.findAllById(voteIds);
 
         //preparing wrapper

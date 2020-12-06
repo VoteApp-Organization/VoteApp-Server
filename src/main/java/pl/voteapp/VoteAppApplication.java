@@ -191,12 +191,12 @@ public class VoteAppApplication {
         //create questions
         //question of vote1
         Long question1 = createQuestion("How often do you brush your teeth?", vote1, "String", null);
-        Long question2 = createQuestion("Do you like animals?", vote1, "String", null);
-        Long question3 = createQuestion("Have you ever been in Germany?", vote1, "String", null);
+        Long question2 = createQuestion("Do you like animals?", vote1, "Picklist", Arrays.asList("Yes", "No"));
+        Long question3 = createQuestion("Have you ever been in Germany?", vote1, "Picklist", Arrays.asList("Yes", "Oh yeees", "No man"));
         //question of vote2
         Long question4 = createQuestion("How many ECTS did you get?", vote2, "String", null);
-        Long question5 = createQuestion("Do you play soccer?", vote2, "String", null);
-        Long question6 = createQuestion("Resolve equation 2+2*2", vote2, "String", null);
+        Long question5 = createQuestion("Do you play soccer?", vote2, "Picklist", Arrays.asList("Yes", "No"));
+        Long question6 = createQuestion("Resolve equation 2+2*2", vote2, "Picklist", Arrays.asList("2", "4", "6", "8"));
         Long question7 = createQuestion("What is your favourite movie?", vote2, "String", null);
         //question of vote3
         Long question8 = createQuestion("Elephant of giraffe?", vote3, "Picklist", Arrays.asList("Elephant", "Giraffe"));
@@ -308,6 +308,8 @@ public class VoteAppApplication {
         createAnswer(vote1, question1, null,Arrays.asList("2x per day"));
         createAnswer(vote1, question1, null,Arrays.asList("3x per day"));
         createAnswer(vote1, question1, null,Arrays.asList("Never"));
+        createAnswer(vote1, question2, null,Arrays.asList("Yes"));
+        createAnswer(vote1, question2, null,Arrays.asList("Yes"));
         createAnswer(vote1, question2, null,Arrays.asList("Yes"));
         createAnswer(vote1, question2, null,Arrays.asList("Oh yeees"));
         createAnswer(vote1, question2, null,Arrays.asList("No man"));

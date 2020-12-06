@@ -77,7 +77,7 @@ public class GroupController {
     @ResponseBody
     public ResponseEntity<Object> deleteGroup(@RequestBody GroupAssigment groupAssigment) {
         try{
-            Optional<Group__c> group = groupRepository.findById(groupAssigment.getUser_Id());
+            Optional<Group__c> group = groupRepository.findById(groupAssigment.getGroup_Id());
             if (!group.get().getOwner_id().equals(groupAssigment.getUser_Id())) {
                 ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "", ConstVariables.ERROR_MESSAGE_ONLY_GROUP_OWNER_CAN_DELETE_GROUP);
                 return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -91,7 +91,7 @@ public class GroupController {
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_LEFT_SUCCESSFULLY, transactions);
             return new ResponseEntity<Object>(apiSuccess, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){
-            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_INSERT_FAILED);
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_DELETE_FAILED);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
         }
     }
@@ -117,7 +117,7 @@ public class GroupController {
                 groupIds.add(group.getGroup_Id());
             }
 
-            List<Group__c> groups = groupRepository.exploreGroupByName(searchName.isPresent() ? searchName.get() : "", groupIds);
+            List<Group__c> groups = groupRepository.exploreGroupByName(searchName.isPresent() ? searchName.get() : "", groupIds, userId);
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
             return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
         } catch(Exception ex){

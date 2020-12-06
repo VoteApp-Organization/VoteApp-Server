@@ -57,7 +57,7 @@ public class SurveyController {
                 surveyQuestions.add(new Question(question, newVote.getId()));
             }
 
-            GroupAssigment assigment = new GroupAssigment(surveyWrapper.group_id, newVote.getId(), null);
+            GroupAssigment assigment = new GroupAssigment(newVote.getId(),surveyWrapper.group_id, null);
             List<GroupAssigment> userAssigmentsToGroup = assigmentRepository.findAllUsersOnGroup(surveyWrapper.group_id);
 
             List<UserSurvey> groupUserSurveys = new ArrayList<UserSurvey>();

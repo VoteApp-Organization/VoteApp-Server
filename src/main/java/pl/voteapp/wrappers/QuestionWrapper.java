@@ -18,6 +18,7 @@ public class QuestionWrapper {
     public Boolean isAnonymousVote;
     public Boolean isMandatory;
     public Boolean answerHasBeenGiven;
+    public Boolean authorIsVoting;
     public Date voteDate;
     public Integer numberOfQuestions;
     public String surveyPicture;
@@ -33,6 +34,7 @@ public class QuestionWrapper {
         this.isPublicVote = vote.getPublicVote();
         this.isMandatory = vote.getMandatory();
         this.isAnonymousVote = vote.getAnonymousVote();
+        this.authorIsVoting = vote.getAuthorIsVoting();
         this.numberOfQuestions = vote.getNumberOfQuestions();
         this.surveyPicture = vote.getPicture_name();
         this.answerHasBeenGiven = userQuestion.getAnswerHasBeenGiven();

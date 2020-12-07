@@ -2,6 +2,7 @@ package pl.voteapp;
 
 import java.security.SecureRandom;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Random;
 import java.util.Set;
 
@@ -10,8 +11,8 @@ public class Utils {
     public static String EMPTY_STRING = "";
 
     public static Date getCurrentDate(Integer year, Integer month, Integer day) {
-        Date dateobj = new Date(year, month, day);
-        return dateobj;
+        Date date = Date.valueOf(year + "-" + month + "-" + day);
+        return date;
     }
 
     public static Date getCurrentDate() {

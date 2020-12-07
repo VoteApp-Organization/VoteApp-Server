@@ -41,14 +41,15 @@ public class AnswerController {
     @RequestMapping(value = "/saveAnswers", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ResponseEntity<Object> saveUserAnswers(@RequestBody AnswersWrapper answersWrapper) {
-        List<String> transactions = new ArrayList<String>();
         UserSurvey survey = userSurveyRepository.findUsersVote(answersWrapper.answers.get(0).vote_id, answersWrapper.answers.get(0).user_id);
         survey.answerHasBeenGiven = true;
         survey.voteDate = Utils.getCurrentDate();
         userSurveyRepository.save(survey);
         answerRepository.saveAll(answersWrapper.answers);
-        transactions.add(ConstVariables.OT_ANSWER + " " + ConstVariables.UPDATE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + survey.getId());
-        transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + answersWrapper.answers.size());
+
+        List<String> transactions = new ArrayList<String>();
+        transactions.add(ConstVariables.OT_USER_SURVEY + " " + ConstVariables.UPDATE_SUCCESSFUL + " " + ConstVariables.ID_PRESENT + survey.getId());
+        transactions.add(ConstVariables.OT_ANSWER + " " + ConstVariables.INSERT_SUCCESSFUL + " " + ConstVariables.QUANTITY_PRESENT + answersWrapper.answers.size());
 
         try{
             ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.ANSWERS_HAS_BEEN_CREATED_SUCCESSFULLY, transactions);

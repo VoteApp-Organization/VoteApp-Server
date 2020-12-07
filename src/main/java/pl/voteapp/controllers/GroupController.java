@@ -207,23 +207,29 @@ public class GroupController {
                 //In this place we assume that this assigment does not exist right now
                 //TODO create special identifier of assigment which will be unique
                 GroupAssigment newGroupAssigment = groupAssigmentRepository.save(new GroupAssigment(null, group.get().getId(), groupAssigment.getUser_Id()));
+
+                List<GroupAssigment> groupAssigmentSurveys = groupAssigmentRepository.findAssigmentGroupToVote(newGroupAssigment.getGroup_Id());
+                Set<Long> voteIds = new HashSet<Long>();
+                for(GroupAssigment assigment : groupAssigmentSurveys) {
+                    voteIds.add(assigment.getVote_Id());
+                }
                 //create userSurveys
-                List<Vote> groupSurveys = voteRepository.findGroupSurveys(groupAssigment.getVote_Id());
+                List<Vote> groupSurveys = voteRepository.findAllById(voteIds);
                 List<UserSurvey> existingUserSurvey = userSurveyRepository.findUserSurveys(groupAssigment.getUser_Id());
                 Map<Long, Vote> groupSurveysMap = new HashMap<Long, Vote>();
-                for(Vote vote : groupSurveys){
-                    groupSurveysMap.put(vote.getId(),vote);
+                for (Vote vote : groupSurveys) {
+                    groupSurveysMap.put(vote.getId(), vote);
                 }
 
-                for(UserSurvey userSurvey : existingUserSurvey){
-                    if(groupSurveysMap.containsKey(userSurvey.getSurvey_id())){
+                for (UserSurvey userSurvey : existingUserSurvey) {
+                    if (groupSurveysMap.containsKey(userSurvey.getSurvey_id())) {
                         groupSurveysMap.remove(userSurvey.getSurvey_id());
                     }
                 }
                 List<String> transactions = new ArrayList<String>();
-                if(!groupSurveysMap.isEmpty()){
+                if (!groupSurveysMap.isEmpty()) {
                     List<UserSurvey> newUserSurveys = new ArrayList<UserSurvey>();
-                    for(Vote vote : groupSurveysMap.values()){
+                    for (Vote vote : groupSurveysMap.values()) {
                         UserSurvey userSurvey = new UserSurvey(vote.getId(), groupAssigment.getUser_Id(), false);
                         newUserSurveys.add(userSurvey);
                     }

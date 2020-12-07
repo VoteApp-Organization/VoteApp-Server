@@ -100,6 +100,7 @@ public class AnswerController {
                 picklistAnswerMap.put(currentQuestion.getId(), new HashMap<String, Integer>());
             }
         }
+
         for (Answer answer : answers) {
             if (picklistAnswerMap.containsKey(answer.getQuestion_id())) {
                 Map<String, Integer> picklistMap = picklistAnswerMap.get(answer.getQuestion_id());
@@ -117,7 +118,6 @@ public class AnswerController {
             Map<String, Integer> picklistValueMap = picklistAnswerMap.get(questionAnswers);
             container.add(new QuestionAnswersWrapper(currentQuestion, questionMap.get(questionAnswers), picklistValueMap));
         }
-
 
         SurveyResultWrapper surveyContainer = new SurveyResultWrapper(vote.get());
         surveyContainer.questions = container;

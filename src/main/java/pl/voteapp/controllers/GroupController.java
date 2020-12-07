@@ -101,8 +101,7 @@ public class GroupController {
     public ResponseEntity<Object> getGroupsByName(@RequestParam String searchName) {
         try{
             List<Group__c> groups = groupRepository.findGroupByName(searchName);
-            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, ConstVariables.GROUP_HAS_BEEN_FOUND, Arrays.asList(""));
-            return new ResponseEntity<Object>(groups, new HttpHeaders(), apiSuccess.getStatus());
+            return new ResponseEntity<Object>(groups, new HttpHeaders(), HttpStatus.OK);
         } catch(Exception ex){
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_EMPTY_LIST_TO_RETURN);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());

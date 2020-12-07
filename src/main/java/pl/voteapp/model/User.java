@@ -1,5 +1,7 @@
 package pl.voteapp.model;
 
+import com.google.firebase.auth.UserRecord;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,12 @@ public class User {
     private String userType;
 
     public User() {
+    }
+
+    public User(UserRecord userRecord) {
+        this.email = userRecord.getEmail();
+        this.name = userRecord.getDisplayName();
+        this.mobileNumber = userRecord.getPhoneNumber();
     }
 
     public Boolean getActive() {

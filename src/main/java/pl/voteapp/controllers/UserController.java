@@ -48,26 +48,26 @@ public class UserController {
     @RequestMapping(value = "getUserGroups/{id}", method = RequestMethod.GET)
     public @ResponseBody
     List<Group__c> getGroups(@PathVariable("id") Optional<Long> userid) {
-        List<GroupAssigment> groupAssigments = groupAssigmentRepository.findAssigmentUserToGroups(userid.get());
-        List<Long> authorGroupIds = groupRepository.findGroupByAuthorId(userid.get());
         Set<Long> groupsId = new HashSet<Long>();
-        for (Long currentId : authorGroupIds) {
-            groupsId.add(currentId);
-        }
+        //All user assignments to groups
+        List<GroupAssigment> groupAssigments = groupAssigmentRepository.findAssigmentUserToGroups(userid.get());
         for (GroupAssigment assigment : groupAssigments) {
             groupsId.add(assigment.getGroup_Id());
+        }
+        //All user groups where he is author
+        List<Long> authorGroupIds = groupRepository.findGroupByAuthorId(userid.get());
+        for (Long currentId : authorGroupIds) {
+            groupsId.add(currentId);
         }
         List<Group__c> groups = groupRepository.findAllById(groupsId);
         return groups;
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken) throws FirebaseAuthException {
+    public ResponseEntity<Object> loginUser(@RequestHeader("ID-TOKEN") String idToken) {
         try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
-            String uid = decodedToken.getUid();
-            System.out.println(uid);
             return new ResponseEntity<>(userRepository.findByPhoneEmail(userRecord.getEmail()), HttpStatus.OK);
         } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
@@ -80,11 +80,7 @@ public class UserController {
         try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(String.valueOf(decodedToken.getUid()));
-            User user = new User();
-            user.setEmail(userRecord.getEmail());
-            user.setName(userRecord.getDisplayName());
-            user.setMobileNumber(userRecord.getPhoneNumber());
-            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+            return new ResponseEntity<>(userRepository.save(new User(userRecord)), HttpStatus.OK);
         } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ConstVariables.ERROR_MESSAGE_NO_USER_WITH_SPECIFIED_CREDENTIALS);
             return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());

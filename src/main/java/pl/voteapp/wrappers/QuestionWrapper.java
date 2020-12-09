@@ -51,6 +51,7 @@ public class QuestionWrapper {
         this.endDate = vote.getEndDate();
         this.isPublicVote = vote.getPublicVote();
         this.isMandatory = vote.getMandatory();
+        this.authorIsVoting = vote.getAuthorIsVoting();
         this.isAnonymousVote = vote.getAnonymousVote();
         this.numberOfQuestions = vote.getNumberOfQuestions();
         this.surveyPicture = vote.getPicture_name();
